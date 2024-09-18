@@ -62,10 +62,10 @@ export default function Landing() {
                 </p>
               </div>
               <div className="w-full max-w-sm space-y-2">
-                <form className="flex space-x-2">
-                  <input className="max-w-lg flex-1" placeholder="Enter your email" type="email" />
-                  {/* <Button type="submit">Subscribe</Button> */}
-                </form>
+                {/* <form className="flex space-x-2">
+                  <input className="max-w-lg flex-1 h-10 rounded-lg border-2 border-slate-200 pl-4" placeholder="Enter your email" type="email" />
+                  <Button className='flex justify-center items-center w-28 h-10 rounded-lg bg-black text-white font-semibold'>Subscribe</Button>
+                </form> */}
                 <p className="text-xs text-gray-500 dark:text-gray-400">
                   Sign up to get notified about new stories.{" "}
                   <Link className="underline underline-offset-2" to="/terms">
@@ -76,7 +76,7 @@ export default function Landing() {
             </div>
           </div>
         </section>
-        <section className="w-full py-12 md:py-24 lg:py-32 bg-gray-100 dark:bg-gray-800">
+        <section className="w-full py-12 md:py-24 lg:py-32 bg-gray-100">
           <div className="container px-4 md:px-6">
             <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl mb-8 text-center">Featured Posts</h2>
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
