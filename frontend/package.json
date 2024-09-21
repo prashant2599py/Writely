@@ -10,11 +10,13 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@auth0/auth0-react": "^2.2.4",
     "@plodhi/medium-common": "^1.0.0",
     "axios": "^1.6.8",
     "html-react-parser": "^5.1.10",
     "jodit-react": "^4.0.15",
     "react": "^18.2.0",
+    "react-bootstrap": "^2.10.4",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.22.3"
   },

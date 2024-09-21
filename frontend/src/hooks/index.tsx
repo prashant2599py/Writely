@@ -48,6 +48,8 @@ export const useBlogs = () => {
             .then(response => {
                 setBlogs(response.data.blogs);
                 setLoading(false);
+            }).then(err => {
+                console.error(err);
             })
     }, [])
     return {

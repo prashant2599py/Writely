@@ -1,13 +1,12 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from './ui/Button';
 
 export default function Landing() {
   return (
     <div className="flex flex-col min-h-screen">
-      <header className="px-4 lg:px-6 h-14 flex items-center">
+      <header className="px-4 lg:px-6 h-20 flex items-center">
         <Link className="flex items-center justify-center" to="/">
-          <span className="sr-only">Blogify</span>
+          <div className="sr-only">Blogify</div>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"
@@ -25,11 +24,14 @@ export default function Landing() {
             <path d="M8 11h8" />
             <path d="M8 15h6" />
           </svg>
-          <span className="ml-2 text-xl font-bold">Blogify</span>
+          <div className="ml-2 text-3xl h-18 font-bold text-transparent bg-clip-text bg-gradient-to-r from-slate-300 to bg-zinc-950">Blogify</div>
         </Link>
         <nav className="ml-auto flex gap-4 sm:gap-6">
           <Link className="text-sm font-medium hover:underline underline-offset-4" to="/">
             Home
+          </Link>
+          <Link className="text-sm font-medium hover:underline underline-offset-4" to="/">
+            Categories
           </Link>
           <Link className="text-sm font-medium hover:underline underline-offset-4" to="/about">
             About

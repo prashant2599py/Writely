@@ -2,11 +2,13 @@ import { SignupInput } from "@plodhi/medium-common";
 import axios from "axios";
 import { ChangeEvent, useState } from "react";
 import { Link, useNavigate } from "react-router-dom"
+import { useAuth0 } from "@auth0/auth0-react";
 import { BACKEND_URL } from "../config";
 
 export const Auth = ({type}: {type : "signup" | "signin"})=> {
     const navigate = useNavigate();
 
+    const { loginWithRedirect } = useAuth0();
     const [postInputs, setPostInputs] = useState<SignupInput>({
         name : "",
         username: "",
@@ -64,6 +66,10 @@ export const Auth = ({type}: {type : "signup" | "signin"})=> {
                     focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700
                     dark:focus:ring-gray-700 dark:border-gray-700">{type === "signup" ? "Sign up" : "Sign in"}</button>
                 </div>
+                
+                <Link to={type === 'signin' ? "/singin" : "/signup"}>
+                    <button onClick={(e) => loginWithRedirect() } className="p-2 justify-center w-full bg-blue-400 rounded-lg mt-4 font-semibold">{type === "signin" ? "Sign in with Google" : "Sign Up with Google"}</button>
+               </Link>
             </div>
         </div>
     </div>

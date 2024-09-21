@@ -1,3 +1,4 @@
+import { useAuth0 } from "@auth0/auth0-react"
 import { Link } from "react-router-dom"
 
 interface BlogCardProps{
@@ -21,7 +22,7 @@ export const BlogCard = ({
                 <div className="border-b border-slate-400 pb-4 pt-8 cursor-pointer max-w-screen-md  ">
                         <div className="flex">
                             <div className="flex justify-center flex-col ">
-                                <Avatar name = {authorName} /> 
+                                <Avatar /> 
                             </div>
                                 <div className="mr-2  ml-2 ">{authorName}</div> . 
                                 <div className="ml-1 font-thin text-slate-500 text-sm">{publishedDate}</div>
@@ -41,10 +42,11 @@ export const BlogCard = ({
         </Link>
 }
 
-export function Avatar({ name }: { name : string }){
+export function Avatar(){
+    const { user } = useAuth0();
     return (<div className="relative inline-flex items-center justify-center w-7 h-7 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
         <span className="font-medium text-gray-600 dark:text-gray-300">
-            {name[0]}
+           {user?.name ? user.name[0] : 'U'}
         </span>
     </div>
     )
