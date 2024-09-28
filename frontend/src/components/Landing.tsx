@@ -1,10 +1,16 @@
 import { Link } from 'react-router-dom';
 import { Button } from './ui/Button';
+import { motion } from 'framer-motion';
+// import { ArrowRight } from 'lucide-react';
+import { useBlogs } from '../hooks';
+import { BlogCard } from './BlogCard';
 
 export default function Landing() {
+
+  const { blogs } = useBlogs();
   return (
-    <div className="flex flex-col min-h-screen">
-      <header className="px-4 lg:px-6 h-20 flex items-center">
+    <div className="flex flex-col min-h-screen bg-gradient-to-br from-gray-900 to-black text-white">
+      <header className="px-4 lg:px-6 h-20 flex items-center bg">
         <Link className="flex items-center justify-center" to="/">
           <div className="sr-only">Blogify</div>
           <svg
@@ -24,7 +30,7 @@ export default function Landing() {
             <path d="M8 11h8" />
             <path d="M8 15h6" />
           </svg>
-          <div className="ml-2 text-3xl h-18 font-bold text-transparent bg-clip-text bg-gradient-to-r from-slate-300 to bg-zinc-950">Blogify</div>
+          <div className="ml-2 text-3xl h-18 font-bold text-transparent bg-clip-text bg-gradient-to-r from-slate-300 to bg-slate-200">Blogify</div>
         </Link>
         <nav className="ml-auto flex gap-4 sm:gap-6">
           <Link className="text-sm font-medium hover:underline underline-offset-4" to="/">
@@ -44,7 +50,7 @@ export default function Landing() {
           {/* <Button variant="outline">Sign In</Button>
           <Button>Sign Up</Button> */}
           <Link to="/signin">
-            <Button className='flex justify-center items-center border-2 hover:bg-slate-100 w-20 h-10 rounded-lg '>Sign In</Button>
+            <Button className='flex justify-center items-center border-2 hover:bg-slate-100 hover:text-black hover:font-semibold w-20 h-10 rounded-lg '>Sign In</Button>
           </Link>
           <Link to="/signup">
             <Button className='flex justify-center items-center w-20 h-10 rounded-lg bg-black text-white font-semibold'>Sign Up</Button>
@@ -56,33 +62,48 @@ export default function Landing() {
           <div className="container px-4 md:px-6">
             <div className="flex flex-col items-center space-y-4 text-center">
               <div className="space-y-2">
-                <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl/none">
-                  Welcome to Blogify
-                </h1>
-                <p className="mx-auto max-w-[700px] text-gray-500 md:text-xl dark:text-gray-400">
-                  Discover stories, thinking, and expertise from writers on any topic.
-                </p>
+              <motion.h1 
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 0.2 }}
+                  className="text-5xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-500"
+                >
+                  Discover Inspiring Stories
+              </motion.h1>               
               </div>
-              <div className="w-full max-w-sm space-y-2">
-                {/* <form className="flex space-x-2">
-                  <input className="max-w-lg flex-1 h-10 rounded-lg border-2 border-slate-200 pl-4" placeholder="Enter your email" type="email" />
-                  <Button className='flex justify-center items-center w-28 h-10 rounded-lg bg-black text-white font-semibold'>Subscribe</Button>
-                </form> */}
-                <p className="text-xs text-gray-500 dark:text-gray-400">
-                  Sign up to get notified about new stories.{" "}
-                  <Link className="underline underline-offset-2" to="/terms">
-                    Terms & Conditions
-                  </Link>
-                </p>
-              </div>
+              <motion.p 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.4 }}
+                className="text-xl text-gray-300 mb-8"
+              >
+                Explore a world of captivating blogs curated just for you
+              </motion.p>
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.6 }}
+              >
+                <Button className="bg-white text-black hover:bg-gray-200 m-2 p-2 rounded-lg">
+                  Start Reading 
+                  {/* <ArrowRight className="ml-2 h-4 w-4" /> */}
+                </Button>
+              </motion.div>
             </div>
           </div>
         </section>
-        <section className="w-full py-12 md:py-24 lg:py-32 bg-gray-100">
+        <section className="mb-16">
           <div className="container px-4 md:px-6">
             <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl mb-8 text-center">Featured Posts</h2>
-            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-              
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
+              {blogs.map(blog => <BlogCard 
+                  key={blog.id}
+                  id={blog.id}
+                  authorName={blog.author.name || "Anonymous"}
+                  title={blog.title}
+                  content={blog.content}
+                  publishedDate={blog.createdAt}
+              />)}
             </div>
           </div>
         </section>

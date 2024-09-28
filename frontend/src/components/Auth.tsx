@@ -22,7 +22,7 @@ export const Auth = ({type}: {type : "signup" | "signin"})=> {
             localStorage.setItem("token",jwt);
             navigate("/blogs")
         }catch(e){ 
-            // console.log(e); 
+            console.log(e); 
             alert("Error while signing up");
         }
     }
@@ -67,8 +67,8 @@ export const Auth = ({type}: {type : "signup" | "signin"})=> {
                     dark:focus:ring-gray-700 dark:border-gray-700">{type === "signup" ? "Sign up" : "Sign in"}</button>
                 </div>
                 
-                <Link to={type === 'signin' ? "/singin" : "/signup"}>
-                    <button onClick={(e) => loginWithRedirect() } className="p-2 justify-center w-full bg-blue-400 rounded-lg mt-4 font-semibold">{type === "signin" ? "Sign in with Google" : "Sign Up with Google"}</button>
+                <Link to={type === 'signin' ? "/auth0-singin" : "/signup"}>
+                    <button onClick={ () => loginWithRedirect() } className="p-2 justify-center w-full bg-blue-400 rounded-lg mt-4 font-semibold">{type === "signin" ? "Sign in with Google" : "Sign Up with Google"}</button>
                </Link>
             </div>
         </div>

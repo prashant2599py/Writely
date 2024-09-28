@@ -6,17 +6,17 @@
   },
   "dependencies": {
     "@plodhi/medium-common": "^1.0.0",
-    "@prisma/client": "^5.19.1",
-    "@prisma/extension-accelerate": "^1.0.0",
+    "@prisma/client": "^5.20.0",
+    "@prisma/extension-accelerate": "^1.1.0",
     "cors": "^2.8.5",
     "hono": "^4.0.9",
     "init": "^0.1.2",
-    "npx": "^10.2.2",
-    "prisma": "^5.19.1"
+    "npx": "^10.2.2"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20240208.0",
     "@types/node": "^22.5.5",
+    "prisma": "^5.20.0",
     "wrangler": "^3.31.0"
   }
 }

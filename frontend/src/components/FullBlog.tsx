@@ -1,8 +1,13 @@
+// import { useAuth0 } from "@auth0/auth0-react"
 import { Blog } from "../hooks"
 import { Appbar } from "./AppBar"
 import { Avatar } from "./BlogCard"
 
+
 export const FullBlog  = ({ blog }: {blog : Blog}) => {
+
+    // const {user} = useAuth0();
+    // console.log(user);
     return <div>
         <Appbar />
             <div className="flex justify-center">
@@ -12,11 +17,14 @@ export const FullBlog  = ({ blog }: {blog : Blog}) => {
                                 {blog.title}
                             </div>
                             <div className="pt-4 text-slate-500">
-                                Posted on 23 March 2024
+                                {blog.createdAt}
                             </div>
                             <div className="pt-4 pr-2">
                                 {blog.content}
                             </div>
+                            {/* <Link to={"/update"}>
+                                <Button className="bg-blue-600 p-3 rounded-lg hover:bg-blue-400 border-2 hover:border-black">Update</Button>
+                            </Link> */}
                     </div>
                     <div className="col-span-4 ">
                             <div className="text-lg text-slate-600">
@@ -28,15 +36,17 @@ export const FullBlog  = ({ blog }: {blog : Blog}) => {
                                 </div>
                                 <div className="pt-4">
                                     <div className="text-xl font-bold">
-                                        {blog.author.name || "Anonymous"}
+                                        {blog.author.name || "User"}
                                     </div>
                                     <div className="pt-2 text-slate-500">
                                         Random catch phrase about the author's ability to grab the user's attention
                                     </div>
                                 </div>
                             </div>
+                            
                     </div>    
                 </div>
+                
             </div>
     </div>
 }

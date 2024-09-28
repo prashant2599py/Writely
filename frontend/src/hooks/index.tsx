@@ -9,7 +9,8 @@ export interface Blog{
         "id": number,
         "author": {
             "name": string
-        }  
+        },
+        "createdAt" : string  
 }
 
 export const useBlog = ({ id }: {id : string }) => {
@@ -24,6 +25,7 @@ export const useBlog = ({ id }: {id : string }) => {
             }
         })
             .then(response => {
+                // console.log(response.data.blog.createdAt);
                 setBlog(response.data.blog);
                 setLoading(false);
             })
@@ -34,7 +36,7 @@ export const useBlog = ({ id }: {id : string }) => {
     }
 }
 
-export const useBlogs = () => {
+export const    useBlogs = () => {
     const [loading, setLoading] = useState(true);
     const [blogs, setBlogs] = useState<Blog[]>([]);
 
@@ -48,8 +50,6 @@ export const useBlogs = () => {
             .then(response => {
                 setBlogs(response.data.blogs);
                 setLoading(false);
-            }).then(err => {
-                console.error(err);
             })
     }, [])
     return {

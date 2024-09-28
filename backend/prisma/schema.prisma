@@ -16,9 +16,10 @@ datasource db {
 
 model User{
   id Int   @id @default(autoincrement())
+  auth0ID  String? @unique
   name String?
   username String @unique
-  password String
+  password String?
   blogs  Blog[]
 }
 

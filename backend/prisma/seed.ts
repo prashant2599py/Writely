@@ -6,11 +6,10 @@ async function userSeedData(){
 
   try{
     await prisma.user.upsert({
-    where: {
-        id : 1
+    where: {    
+      id: 1,   
       },
-      create : {
-        id : 1,
+      create : {  
         name : 'testuser1',
         username : "testuser1@gmail.com",
         password : "testuser1",
@@ -21,10 +20,9 @@ async function userSeedData(){
   
     await prisma.user.upsert({
       where : {
-        id : 2,
+        id: 2,
       },
       create : {
-        id : 2,
         name : 'testuser2',
         username:  "testuser2@gmail.com",
         password : "testuser2",

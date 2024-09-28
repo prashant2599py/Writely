@@ -19,13 +19,14 @@ export const  Blogs = () =>{
     return <div>
         <Appbar />
         <div className="flex justify-center">
-            <div className="max-w-xl">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
                 {blogs.map(blog => <BlogCard
+                key={blog.id}
                     id={blog.id}
-                    authorName={blog.author.name || "Anonymous"}
+                    authorName={blog.author.name || "User"}
                     title={blog.title}
                     content={blog.content}
-                    publishedDate={"19th Feb 2024"}
+                    publishedDate={blog.createdAt}
                 />
                 )}
                 
