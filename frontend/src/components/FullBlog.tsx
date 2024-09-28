@@ -17,6 +17,7 @@ export const FullBlog  = ({ blog }: {blog : Blog}) => {
                                 {blog.title}
                             </div>
                             <div className="pt-4 text-slate-500">
+                                created on:
                                 {blog.createdAt}
                             </div>
                             <div className="pt-4 pr-2">

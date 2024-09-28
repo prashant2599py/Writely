@@ -22,10 +22,8 @@ export const BlogCard = ({
     content,
     publishedDate,
 }: BlogCardProps) => {
-    const dateToShow = new Date(publishedDate);
-    console.log("Date of creation : " + dateToShow.toLocaleDateString()) // Invalid Date as Date of creation has to come form backend
-    const { user } = useAuth0();
-    console.log(JSON.stringify(user));
+    // const { user } = useAuth0();
+    // console.log(JSON.stringify(user));
     
     return <Link to={`/blog/${id}`}>
                 <div className="pb-4 pt-8 cursor-pointer max-w-screen-md  ml-12">
@@ -46,7 +44,7 @@ export const BlogCard = ({
                                 {/* Read More <ChevronRight className="ml-2 h-4 w-4" /> */}
                             </Button>
                             </div>
-                            {/* <div>{dateToShow.toString()}</div> */}
+                            <div className="text-white ml-4">Created on : {publishedDate}</div>
                             <p className="ml-4 text-white">Published By: {authorName}</p>
                             <div className="text-slate-500 text-sm font-thin pt-2 mb-4 ml-4">
                                 {`${Math.ceil(content.length / 100)} minute(s) read`}
