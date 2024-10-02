@@ -3,6 +3,7 @@ import { PrismaClient } from '@prisma/client/edge'
 import { withAccelerate } from '@prisma/extension-accelerate'
 import { sign } from 'hono/jwt'
 import { signupInput, signinInput } from "@plodhi/medium-common";
+import { setCookie }  from 'hono/cookie'
 
 export const userRouter = new Hono<{
     Bindings : {
@@ -13,6 +14,10 @@ export const userRouter = new Hono<{
 
 
 userRouter.post('/signup', async (c) => {
+  const prisma = new PrismaClient({
+    datasourceUrl: c.env.DATABASE_URL,
+  }).$extends(withAccelerate())
+  
     const body = await c.req.json();
     const { success } = signupInput.safeParse(body);
 
@@ -23,9 +28,6 @@ userRouter.post('/signup', async (c) => {
       })
     }
 
-    const prisma = new PrismaClient({
-      datasourceUrl: c.env.DATABASE_URL,
-    }).$extends(withAccelerate())
 
     try{
       const user = await prisma.user.create({
@@ -39,7 +41,7 @@ userRouter.post('/signup', async (c) => {
         id : user.id
       }, c.env.JWT_SECRET)
 
-      return c.text(jwt)
+      return setCookie(c, 'token', jwt);
 
     }catch(err){
       console.log(err);
@@ -82,7 +84,7 @@ userRouter.post('/signin', async (c) => {
         id : user.id
       }, c.env.JWT_SECRET)
 
-      return c.text(jwt)
+      return setCookie(c,'token', jwt);
 
     }catch(err){
       console.log(err);
@@ -94,6 +96,7 @@ userRouter.post('/signin', async (c) => {
   userRouter.post('/auth0-signin', async (c) => {
     const body = await c.req.json();
     const auth0User = body.auth0User;
+    console.log(auth0User);
 
     if(!auth0User  || !auth0User.sub || !auth0User.email){
       c.status(400);

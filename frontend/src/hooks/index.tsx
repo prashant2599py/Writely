@@ -6,17 +6,7 @@ import { format } from "date-fns";
 function formatCreatedAt(dateString: string): string {
     const date = new Date(dateString);
     return format(date, "do MMM");
-    // if (isNaN(date.getTime())) {
-    //   console.error("Invalid date string:", dateString);
-    //   return "Invalid Date";
-    // }
-    // // Assuming you want "28th Sept"
-    // const day = date.getDate();
-    // const month = new Intl.DateTimeFormat('en', { month: 'short' }).format(date);
-    // const suffix = (day % 10 === 1 && day !== 11) ? 'st' :
-    //                (day % 10 === 2 && day !== 12) ? 'nd' :
-    //                (day % 10 === 3 && day !== 13) ? 'rd' : 'th';
-    // return `${day}${suffix} ${month}`;
+
   }
 export interface Blog{
         "content": string,
@@ -35,9 +25,10 @@ export const useBlog = ({ id }: {id : string }) => {
 
     useEffect(()=>{
         axios.get(`${BACKEND_URL}/api/v1/blog/${id}`, {
-            headers : {
-                Authorization : localStorage.getItem("token")
-            }
+            // headers : {
+            //     Authorization : localStorage.getItem("token")
+            // }
+            withCredentials: true
         })
             .then(response => {
                 const fetchedBlog = response.data.blog;
@@ -63,16 +54,17 @@ export const useBlogs = () => {
 
 
     useEffect(()=>{
-        axios.get(`${BACKEND_URL}/api/v1/blog/bulk`, {
-            headers : {
-                Authorization : localStorage.getItem("token")
-            }
+         axios.get(`${BACKEND_URL}/api/v1/blog/bulk`, {
+            withCredentials:true,
+            // headers : {
+            //     Authorization : localStorage.getItem("token")
+            // }
         })
             .then(response => {
-                // console.log(response.data.blogs)
+                console.log(response.data.blogs)
                 const formattedBlogs = response.data.blogs.map((blog : Blog) => ({
                     ...blog,
-                    createdAt: formatCreatedAt(blog.createdAt) // or any desired format
+                    createdAt: formatCreatedAt(blog.createdAt)
                 }));
                 // console.log(formatCreatedAt);
                 setBlogs(formattedBlogs);

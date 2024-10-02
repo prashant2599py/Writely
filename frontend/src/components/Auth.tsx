@@ -4,6 +4,7 @@ import { ChangeEvent, useState } from "react";
 import { Link, useNavigate } from "react-router-dom"
 import { useAuth0 } from "@auth0/auth0-react";
 import { BACKEND_URL } from "../config";
+// import { setCookie} from 'hono/cookie'
 
 export const Auth = ({type}: {type : "signup" | "signin"})=> {
     const navigate = useNavigate();
@@ -17,9 +18,12 @@ export const Auth = ({type}: {type : "signup" | "signin"})=> {
 
     async function sendRequest(){
         try{
-            const response = await axios.post(`${BACKEND_URL}/api/v1/user/${type === "signup" ? "signup" :"signin"}`, postInputs);
-            const jwt = response.data;
-            localStorage.setItem("token",jwt);
+            await axios.post(`${BACKEND_URL}/api/v1/user/${type === "signup" ? "signup" :"signin"}`, postInputs, {
+                withCredentials: true,
+            });
+            // const jwt = response.data;
+            // localStorage.setItem("token",jwt);
+            // setCookie('token', jwt);
             navigate("/blogs")
         }catch(e){ 
             console.log(e); 

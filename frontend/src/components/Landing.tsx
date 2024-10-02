@@ -99,7 +99,7 @@ export default function Landing() {
               {blogs.map(blog => <BlogCard 
                   key={blog.id}
                   id={blog.id}
-                  authorName={blog.author.name || "Anonymous"}
+                  authorName={blog.author.name || "User"}
                   title={blog.title}
                   content={blog.content}
                   publishedDate={blog.createdAt}
