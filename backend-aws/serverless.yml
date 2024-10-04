@@ -1,0 +1,13 @@
+service: backend-aws
+
+provider:
+  name: aws
+  runtime: nodejs20.x
+
+functions:
+  userSignup:
+    handler: userSignup.handler
+    events:
+      - httpApi:
+          path: /
+          method: post

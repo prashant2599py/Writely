@@ -54,12 +54,13 @@ export const useBlogs = () => {
 
 
     useEffect(()=>{
-         axios.get(`${BACKEND_URL}/api/v1/blog/bulk`, {
-            withCredentials:true,
+         axios.get(`${BACKEND_URL}/api/v1/blog/bulk`
+            //  {
             // headers : {
             //     Authorization : localStorage.getItem("token")
             // }
-        })
+        // }
+    )
             .then(response => {
                 console.log(response.data.blogs)
                 const formattedBlogs = response.data.blogs.map((blog : Blog) => ({

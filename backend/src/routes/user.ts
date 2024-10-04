@@ -12,15 +12,13 @@ export const userRouter = new Hono<{
     }
 }>();
 
+userRouter.post('/signup', async (c) => {  
+  const body = await c.req.json();
+  const { success } = signupInput.safeParse(body);
 
-userRouter.post('/signup', async (c) => {
   const prisma = new PrismaClient({
     datasourceUrl: c.env.DATABASE_URL,
   }).$extends(withAccelerate())
-  
-    const body = await c.req.json();
-    const { success } = signupInput.safeParse(body);
-
     if(!success){
       c.status(411);
       return c.json({
@@ -51,6 +49,7 @@ userRouter.post('/signup', async (c) => {
     }  
 })
 
+
 userRouter.post('/signin', async (c) => {
   const body = await c.req.json();
   const { success } = signinInput.safeParse(body);
@@ -61,9 +60,6 @@ userRouter.post('/signin', async (c) => {
       message : "Credentials are not correct"
     })
   }
-  const prisma = new PrismaClient({
-    datasourceUrl: c.env.DATABASE_URL,
-  }).$extends(withAccelerate())
 
     try{
       const user = await prisma.user.findFirst({
@@ -87,58 +83,56 @@ userRouter.post('/signin', async (c) => {
       return setCookie(c,'token', jwt);
 
     }catch(err){
-      console.log(err);
+      console.error("Error during signin:", err);
+      c.status(500)
+      return c.text('Internal Server Error');
       
-      c.status(411);
-      return c.text('User already exists with this email');
+      // c.status(411);
+      // return c.text('User already exists with this email');
     } 
 })
-  userRouter.post('/auth0-signin', async (c) => {
-    const body = await c.req.json();
-    const auth0User = body.auth0User;
-    console.log(auth0User);
+//   userRouter.post('/auth0-signin', async (c) => {
+//     const body = await c.req.json();
+//     const auth0User = body.auth0User;
+//     console.log(auth0User);
 
-    if(!auth0User  || !auth0User.sub || !auth0User.email){
-      c.status(400);
-      return c.json({
-        message : "Invalid auth0 user"
-      })
-    }
+//     if(!auth0User  || !auth0User.sub || !auth0User.email){
+//       c.status(400);
+//       return c.json({
+//         message : "Invalid auth0 user"
+//       })
+//     }
 
-    const prisma = new PrismaClient({
-      datasourceUrl : c.env.DATABASE_URL
-    }).$extends(withAccelerate());
-
-    try{
-      let user = await prisma.user.findUnique({
-        where : {auth0ID : auth0User.sub},
-      });
+//     try{
+//       let user = await prisma.user.findUnique({
+//         where : {auth0ID : auth0User.sub},
+//       });
 
 
-      if (!user) {
-        // If user doesn't exist, create a new one
-        user = await prisma.user.create({
-          data: {
-            name: auth0User.name,
-            username: auth0User.email, 
-            auth0ID: auth0User.sub,    
-          },
-        });
-      }
-      // console.log(user);
+//       if (!user) {
+//         // If user doesn't exist, create a new one
+//         user = await prisma.user.create({
+//           data: {
+//             name: auth0User.name,
+//             username: auth0User.email, 
+//             auth0ID: auth0User.sub,    
+//           },
+//         });
+//       }
+//       // console.log(user);
 
-      // Generate JWT for user
-      const jwt = await sign({
-        id : user.id,
-        email : user.username,
-      }, c.env.JWT_SECRET);
+//       // Generate JWT for user
+//       const jwt = await sign({
+//         id : user.id,
+//         email : user.username,
+//       }, c.env.JWT_SECRET);
 
-      // console.log(jwt);
+//       // console.log(jwt);
 
-      return c.text(jwt);
-    } catch(error){
-      console.log(error);
-      c.status(500);
-      return c.text("Error during authentication");
-    }
-});
+//       return c.text(jwt);
+//     } catch(error){
+//       console.log(error);
+//       c.status(500);
+//       return c.text("Error during authentication");
+//     }
+// });

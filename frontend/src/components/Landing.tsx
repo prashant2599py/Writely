@@ -2,12 +2,12 @@ import { Link } from 'react-router-dom';
 import { Button } from './ui/Button';
 import { motion } from 'framer-motion';
 // import { ArrowRight } from 'lucide-react';
-import { useBlogs } from '../hooks';
-import { BlogCard } from './BlogCard';
+// import { useBlogs } from '../hooks';
+// import { BlogCard } from './BlogCard';
 
 export default function Landing() {
 
-  const { blogs } = useBlogs();
+  // const { blogs } = useBlogs();
   return (
     <div className="flex flex-col min-h-screen bg-gradient-to-br from-gray-900 to-black text-white">
       <header className="px-4 lg:px-6 h-20 flex items-center bg">
@@ -96,14 +96,14 @@ export default function Landing() {
           <div className="container px-4 md:px-6">
             <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl mb-8 text-center">Featured Posts</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
-              {blogs.map(blog => <BlogCard 
+              {/* {blogs.map(blog => <BlogCard 
                   key={blog.id}
                   id={blog.id}
                   authorName={blog.author.name || "User"}
                   title={blog.title}
                   content={blog.content}
                   publishedDate={blog.createdAt}
-              />)}
+              />)} */}
             </div>
           </div>
         </section>

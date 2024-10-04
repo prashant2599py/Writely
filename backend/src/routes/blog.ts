@@ -100,10 +100,11 @@ blogRouter.put('/', async (c) => {
 
 // Todo : add Pagination
 blogRouter.get('/bulk', async (c) => {
+    
     const prisma = new PrismaClient({
         datasourceUrl: c.env.DATABASE_URL,
     }).$extends(withAccelerate())
-    console.log("database connection  established")
+
     const blogs = await prisma.blog.findMany({
         select : {
             content: true,
@@ -117,7 +118,7 @@ blogRouter.get('/bulk', async (c) => {
             },
         }
     });
-    console.log(blogs)
+    // console.log(blogs)
 
     return c.json({
         blogs

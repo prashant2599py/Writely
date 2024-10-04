@@ -26,7 +26,7 @@ export const Auth = ({type}: {type : "signup" | "signin"})=> {
             // setCookie('token', jwt);
             navigate("/blogs")
         }catch(e){ 
-            console.log(e); 
+            console.error(e); 
             alert("Error while signing up");
         }
     }
