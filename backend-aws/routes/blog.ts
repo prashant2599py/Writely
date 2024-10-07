@@ -26,8 +26,9 @@ blogRouter.options('/*', (c) => {
 const prisma = new PrismaClient().$extends(withAccelerate());
 
 blogRouter.use("/*",async (c, next)=> {
-    const authHeader = c.req.header("authorization") || "";
-    const user = await verify(authHeader, c.env.JWT_SECRET)
+    const authHeader = c.req.header("Authorization") || "";
+    const jwtSecret = process.env.JWT_SECRET as string;
+    const user = await verify(authHeader, jwtSecret)
 
     try{
         if(user){

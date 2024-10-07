@@ -14,9 +14,11 @@ provider:
   iam:
     role:
       statements:
-        - Effect: "Allow"
-          Action: "*"
-          Resource: "*"
+      - Effect: Allow
+        Action:
+          - lambda:InvokeFunction
+          - lambda:InvokeAsync
+        Resource: "*"
 
 functions:
   app:
