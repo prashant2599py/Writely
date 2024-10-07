@@ -1,13 +1,46 @@
+# "org" ensures this Service is used with the correct Serverless Framework Access Key.
+org: lone0wolf
 service: backend-aws
 
 provider:
   name: aws
   runtime: nodejs20.x
+  region : ap-south-1
+  httpApi:
+    cors: true
+  environment: 
+    DATABASE_URL : ${env:DATABASE_URL}
+    JWT_SECRET : ${env:JWT_SECRET}
+  iam:
+    role:
+      statements:
+        - Effect: "Allow"
+          Action: "*"
+          Resource: "*"
 
 functions:
-  userSignup:
-    handler: userSignup.handler
+  app:
+    handler: index.handler
     events:
-      - httpApi:
-          path: /
-          method: post
+      - http:
+          path: /{proxy+}
+          method: any 
+          cors: 
+            origin: 'http://localhost:5173'
+            headers:
+              - Content-Type
+              - X-Amz-Date
+              - Authorization
+              - X-Api-Key
+              - X-Amz-Security-Token
+              - X-Amz-User-Agent
+            allowCredentials: true
+plugins:
+  - serverless-offline
+  - serverless-dotenv-plugin
+
+custom:
+  serverless-offline:
+    environment:
+      DATABASE_URL: ${env:DATABASE_URL}
+      JWT_SECRET: ${env:JWT_SECRET}

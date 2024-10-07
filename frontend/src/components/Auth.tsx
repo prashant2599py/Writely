@@ -18,16 +18,14 @@ export const Auth = ({type}: {type : "signup" | "signin"})=> {
 
     async function sendRequest(){
         try{
-            await axios.post(`${BACKEND_URL}/api/v1/user/${type === "signup" ? "signup" :"signin"}`, postInputs, {
+            const response = await axios.post(`${BACKEND_URL}/api/v1/user/${type === "signup" ? "signup" :"signin"}`, postInputs, {
                 withCredentials: true,
             });
-            // const jwt = response.data;
-            // localStorage.setItem("token",jwt);
-            // setCookie('token', jwt);
+            console.log(response)
             navigate("/blogs")
         }catch(e){ 
             console.error(e); 
-            alert("Error while signing up");
+            alert("Something wrong with server");
         }
     }
     return <div className="h-screen flex justify-center flex-col">
@@ -93,3 +91,8 @@ function LabelledInput({label, placeholder, onChange, type}:  LabelledInputType)
      placeholder={placeholder}   required />
 </div>
 }
+
+
+// const jwt = response.data;
+            // localStorage.setItem("token",jwt);
+            // setCookie('token', jwt);

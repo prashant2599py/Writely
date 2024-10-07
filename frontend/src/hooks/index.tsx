@@ -61,17 +61,17 @@ export const useBlogs = () => {
             // }
         // }
     )
-            .then(response => {
-                console.log(response.data.blogs)
-                const formattedBlogs = response.data.blogs.map((blog : Blog) => ({
-                    ...blog,
-                    createdAt: formatCreatedAt(blog.createdAt)
-                }));
-                // console.log(formatCreatedAt);
-                setBlogs(formattedBlogs);
-                // setBlogs(response.data.blogs);
-                setLoading(false);
-            })
+    .then(response => {
+        console.log(response.data.blogs)
+        const formattedBlogs = response.data.blogs.map((blog : Blog) => ({
+            ...blog,
+            createdAt: formatCreatedAt(blog.createdAt)
+        }));
+        // console.log(formatCreatedAt);
+        setBlogs(formattedBlogs);
+        // setBlogs(response.data.blogs);
+        setLoading(false);
+    })
     }, [])
     return {
         loading,
