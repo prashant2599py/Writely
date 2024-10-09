@@ -13,7 +13,7 @@ app.use(cors({
   credentials: true,
   
 }));
-// console.log('JWT_SECRET:', process.env.JWT_SECRET);
+console.log('JWT_SECRET in start:', process.env.JWT_SECRET);
 
 
 app.route("api/v1/user", userRouter);

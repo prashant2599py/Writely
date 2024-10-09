@@ -2,9 +2,9 @@ require("dotenv").config();
 import { Hono } from "hono";
 import { PrismaClient } from '@prisma/client/edge'
 import { withAccelerate } from '@prisma/extension-accelerate'
-import { sign } from 'hono/jwt'
+import { sign, verify } from 'hono/jwt'
 import { signupInput, signinInput } from "@plodhi/medium-common";
-import { setCookie }  from 'hono/cookie'
+import {  setCookie }  from 'hono/cookie'
 
 
 export const userRouter = new Hono();
@@ -39,7 +39,8 @@ userRouter.post('/signup', async (c) => {
           password :body.password
         }
       })
-      console.log(process.env.JWT_SECRET);
+
+      // console.log(process.env.JWT_SECRET);
       if(!process.env.JWT_SECRET){
         c.json({
           message : "Jwt secret is required"
@@ -67,7 +68,7 @@ userRouter.post('/signup', async (c) => {
 
 userRouter.post('/signin', async (c) => {
   
-  // console.log("JWT_SECRET in route:", process.env.JWT_SECRET); // Check if this logs correctly
+  console.log("JWT_SECRET in user route:", process.env.JWT_SECRET); // Check if this logs correctly
   
   if (!process.env.JWT_SECRET) {
     c.status(500);
@@ -77,7 +78,7 @@ userRouter.post('/signin', async (c) => {
   const { success } = signinInput.safeParse(body);
 
   if(!success){
-    c.status(411);
+    c.status(401);
     return c.json({
       message : "Credentials are not correct"
     })
@@ -90,34 +91,36 @@ userRouter.post('/signin', async (c) => {
           password :body.password
         }
       })
-     
-
+    
       if(!user){
 
         c.status(403);
         return c.json({
           message : "Incorrect credentials"
-        });
-        
+        });    
       }
-      // Debug JWT_SECRET value
-      console.log('JWT_SECRET:', process.env.JWT_SECRET);
-
       const jwt = await sign({
         id : user.id
       }, process.env.JWT_SECRET)
 
- 
+      console.log('jwt in user route:', jwt)
 
-      setCookie(c,'token', jwt);
+      // Set jwt in headers
+      c.header('Authorization', jwt);
+      console.log("Authorization header : " + c.header);
+
+      setCookie(c,'token', jwt,{
+        httpOnly: true,
+        secure: true,
+        sameSite: 'None'
+      });
       return c.json({
-        message : "Signed in Successfully"
+        token : jwt,
+        message : "Signed in Successfully",
       })
 
     }catch(err){
       console.error("Error during signin:", err);
       
-      // c.status(411);
-      // return c.text('User already exists with this email');
     } 
 })

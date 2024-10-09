@@ -3,6 +3,7 @@ import { withAccelerate } from "@prisma/extension-accelerate";
 import { Hono } from "hono";
 import { verify } from "hono/jwt";
 import { createBlogInput, updateBlogInput } from "@plodhi/medium-common";
+import { getCookie } from "hono/cookie";
 
 export const blogRouter = new Hono<{
     Bindings : {
@@ -22,11 +23,12 @@ blogRouter.options('/*', (c) => {
 
   return c.text('', 204); // Send a 204 No Content response
 });
-
 const prisma = new PrismaClient().$extends(withAccelerate());
 
 blogRouter.use("/*",async (c, next)=> {
     const authHeader = c.req.header("Authorization") || "";
+    // const token = authHeader.split('')[1];
+    // console.log(token);
     const jwtSecret = process.env.JWT_SECRET as string;
     const user = await verify(authHeader, jwtSecret)
 
@@ -48,6 +50,52 @@ blogRouter.use("/*",async (c, next)=> {
         })
     }
 })
+// Todo : add Pagination
+blogRouter.get('/bulk', async (c) => {
+    c.header('Access-Control-Allow-Origin', 'http://localhost:5173')
+    console.log("In blog bulk route")
+
+    // Get token from cookies
+    const token = getCookie(c, 'token');
+    console.log("Token in blog route : " + token);
+    if(!token){
+        c.status(401);
+        return c.json({
+            message : "Unauthorized"
+        })
+    }
+    try{
+        const jwtSecret  = process.env.JWT_SECRET as string
+        const decoded = await verify(token, jwtSecret)
+        console.log( "decoded jwt : " + JSON.stringify(decoded));     
+
+        if (!decoded) {
+            throw new Error('Invalid token');
+        }
+        const blogs = await prisma.blog.findMany({
+            select : {
+                content: true,
+                title: true,
+                id: true,
+                createdAt : true,
+                author : {
+                    select : {
+                        name : true
+                    }
+                },
+            }
+        });
+        return c.json({
+            blogs
+        })
+        
+    }catch(err){
+        c.status(403);
+        return c.json({
+            message : "Catch error Unauthorized"
+        })
+    }   
+})
 
 blogRouter.post('/', async (c) => {
     const body = await c.req.json();
@@ -59,12 +107,7 @@ blogRouter.post('/', async (c) => {
             message : "Inputs are not correct"
         })
     }
-
-
     const authorId  = c.get("userId");
-
-    
-
     const blog = await prisma.blog.create({
         data : {
             title : body.title,
@@ -88,10 +131,6 @@ blogRouter.put('/', async (c) => {
             message : "Inputs are not correct"
         })
     }
-
-
-    
-
     const blog = await prisma.blog.update({
         where : {
             id : body.id
@@ -101,36 +140,11 @@ blogRouter.put('/', async (c) => {
             content : body.content,
         }
     })
-
     return c.json({
-        id : blog.id
+        id : blog.id,
+        message :" Updated Post successfully"
     })
 })
-
-// Todo : add Pagination
-blogRouter.get('/bulk', async (c) => {
-    c.header('Access-Control-Allow-Origin', 'http://localhost:5173')
-    const blogs = await prisma.blog.findMany({
-        select : {
-            content: true,
-            title: true,
-            id: true,
-            createdAt : true,
-            author : {
-                select : {
-                    name : true
-                }
-            },
-        }
-    });
-    // console.log(blogs)
-
-    return c.json({
-        blogs
-    })
-})
-
-
 
 blogRouter.get('/:id', async (c) => {
     const id = c.req.param("id");

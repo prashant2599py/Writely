@@ -88,10 +88,6 @@ export const Publish = () => {
                         const response =  await axios.post(`${BACKEND_URL}/api/v1/blog`, {
                             title,
                             content : plainTextContent
-                        }, {
-                            headers: {
-                                Authorization: localStorage.getItem("token")
-                            }
                         });
                         navigate(`/blog/${response.data.id}`)
                     }}
@@ -119,3 +115,8 @@ const convertToPlainText = (html: string) => {
     tempElement.innerHTML = html;
     return tempElement.textContent || tempElement.innerText || '';
 }
+// {
+//     headers: {
+//         Authorization: localStorage.getItem("token")
+//     }
+// }

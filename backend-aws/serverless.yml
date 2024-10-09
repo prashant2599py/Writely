@@ -1,5 +1,3 @@
-# "org" ensures this Service is used with the correct Serverless Framework Access Key.
-org: lone0wolf
 service: backend-aws
 
 provider:
@@ -15,9 +13,7 @@ provider:
     role:
       statements:
       - Effect: Allow
-        Action:
-          - lambda:InvokeFunction
-          - lambda:InvokeAsync
+        Action: "*"
         Resource: "*"
 
 functions:
@@ -29,6 +25,7 @@ functions:
           method: any 
           cors: 
             origin: 'http://localhost:5173'
+               
             headers:
               - Content-Type
               - X-Amz-Date
