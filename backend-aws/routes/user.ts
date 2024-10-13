@@ -4,8 +4,7 @@ import { PrismaClient } from '@prisma/client/edge'
 import { withAccelerate } from '@prisma/extension-accelerate'
 import { sign, verify } from 'hono/jwt'
 import { signupInput, signinInput } from "@plodhi/medium-common";
-import {  setCookie }  from 'hono/cookie'
-import { Record } from "@prisma/client/runtime/library";
+import {  getCookie, setCookie }  from 'hono/cookie'
 
 
 export const userRouter = new Hono();
@@ -128,4 +127,34 @@ userRouter.post('/signin', async (c) => {
       console.error("Error during signin:", err);
       
     } 
+})
+
+userRouter.get('/me', async (c) => {
+  // console.log("Inside /me route")
+    const token = getCookie(c ,'token');
+
+    if(!token){
+      c.status(401);
+      return c.json({
+        message : "Unauthorized"
+      })
+    }
+    try{
+      const verified = await verify(token, process.env.JWT_SECRET as string);
+      const user = await prisma.user.findUnique({
+        where : {
+          id : verified.id as number,
+        }
+      })
+      if(!user){
+        c.status(404);
+        return c.json({message : "User not found"});
+      }
+
+      return c.json({user : {id : user?.id, name : user?.name}});
+
+    }catch(err){
+      c.status(403);
+      return c.json({message : "Invalid Token"})
+    }
 })

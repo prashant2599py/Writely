@@ -22,9 +22,12 @@ export const Auth = ({type}: {type : "signup" | "signin"})=> {
             const response = await axios.post(`${BACKEND_URL}/api/v1/user/${type === "signup" ? "signup" :"signin"}`, postInputs, {
                 withCredentials: true,
             });    
-            console.log(JSON.stringify(response));
-            // localStorage.setItem("token", token);        
+            
+            // console.log(JSON.stringify(response));
+            // localStorage.getIten('token');        
             navigate("/blogs")
+            const data = JSON.stringify(response);
+            console.log(data);
         }catch(e){ 
             console.error(e); 
             alert("Something wrong with server");

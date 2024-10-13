@@ -56,11 +56,15 @@ export const BlogCard = ({
         </Link>
 }
 
-export function Avatar(){
+interface userNameProps{
+    userName?: string
+}
+export function Avatar({ userName } : userNameProps){
     const { user } = useAuth0();
+    const displayName = userName?.toUpperCase() || user?.name || 'U'
     return (<div className="relative inline-flex items-center justify-center w-7 h-7 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
         <span className="font-medium text-gray-600 dark:text-gray-300">
-           {user?.name ? user.name[0] : 'U'}
+           {displayName[0]}
         </span>
     </div>
     )
