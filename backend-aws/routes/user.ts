@@ -5,6 +5,7 @@ import { withAccelerate } from '@prisma/extension-accelerate'
 import { sign, verify } from 'hono/jwt'
 import { signupInput, signinInput } from "@plodhi/medium-common";
 import {  setCookie }  from 'hono/cookie'
+import { Record } from "@prisma/client/runtime/library";
 
 
 export const userRouter = new Hono();
@@ -21,15 +22,12 @@ const prisma = new PrismaClient().$extends(withAccelerate())
 userRouter.post('/signup', async (c) => {  
   const body = await c.req.json()
   const { success } = signupInput.safeParse(body);
-
-
     if(!success){
       c.status(411);
       return c.json({
         message : "Inputs are not correct"
       })
     }
-
 
     try{
       const user = await prisma.user.create({
@@ -39,20 +37,27 @@ userRouter.post('/signup', async (c) => {
           password :body.password
         }
       })
-
       // console.log(process.env.JWT_SECRET);
       if(!process.env.JWT_SECRET){
         c.json({
           message : "Jwt secret is required"
         })
       }
-
       const jwtSecret = process.env.JWT_SECRET as string;
       const jwt = await sign({
         id : user.id,
+        name : user.name
       }, jwtSecret)
 
-      setCookie(c, 'token', jwt);
+      // Set Headers
+      c.header('Authorization', jwt);
+      
+
+      setCookie(c, 'token', jwt, {
+        httpOnly : true,
+        secure : true,
+        sameSite: "None"
+      });
       return c.json({
         message : "Signed up successfully",
       })
@@ -66,14 +71,17 @@ userRouter.post('/signup', async (c) => {
 })
 
 
-userRouter.post('/signin', async (c) => {
-  
-  console.log("JWT_SECRET in user route:", process.env.JWT_SECRET); // Check if this logs correctly
-  
+userRouter.post('/signin', async (c) => { 
   if (!process.env.JWT_SECRET) {
     c.status(500);
     return c.json({ message: "JWT_SECRET is not defined" });
   }
+
+  // const remappedAuth = c.req.header('x-amzn-remapped-authorization');
+  // const header = { ...c.req.header} as Record<string, string>;
+  // if(remappedAuth){
+  //   header['Authorization'] = remappedAuth;
+  // }
   const body = await c.req.json();
   const { success } = signinInput.safeParse(body);
 
@@ -100,14 +108,12 @@ userRouter.post('/signin', async (c) => {
         });    
       }
       const jwt = await sign({
-        id : user.id
+        id : user.id,
+        email : user.username,
       }, process.env.JWT_SECRET)
 
-      console.log('jwt in user route:', jwt)
-
-      // Set jwt in headers
       c.header('Authorization', jwt);
-      console.log("Authorization header : " + c.header);
+      c.header('Access-Control-Expose-Headers', 'Authorization');  // Exposing the Authorization header
 
       setCookie(c,'token', jwt,{
         httpOnly: true,
@@ -115,7 +121,6 @@ userRouter.post('/signin', async (c) => {
         sameSite: 'None'
       });
       return c.json({
-        token : jwt,
         message : "Signed in Successfully",
       })
 

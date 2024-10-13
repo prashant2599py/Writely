@@ -28,7 +28,7 @@ export const FullBlog  = ({ blog }: {blog : Blog}) => {
                             </Link> */}
                     </div>
                     <div className="col-span-4 ">
-                            <div className="text-lg text-slate-600">
+                            <div className="text-lg text-slate-600 ml-10">
                                 Author
                             </div>
                             <div className="flex w-full">

@@ -22,23 +22,26 @@ export const useBlog = ({ id }: {id : string }) => {
     const [loading, setLoading] = useState(true);
     const [blog, setBlog] = useState<Blog>();
 
-
+    const token = localStorage.getItem('token');
     useEffect(()=>{
-        axios.get(`${BACKEND_URL}/api/v1/blog/${id}`, {
+        axios.get(`${BACKEND_URL}/api/v1/blog/${id}`,{
+            headers: {
+                Authorization : token
+            },
             withCredentials: true
         })
-            .then(response => {
-                const fetchedBlog = response.data.blog;
+        .then(response => {
+            const fetchedBlog = response.data.blog;
 
-                const formattedblog = {
-                    ...fetchedBlog,
-                    createdAt : formatCreatedAt(fetchedBlog.createdAt)
-                }
-                // setBlog(response.data.blog);
-                setBlog(formattedblog);
-                setLoading(false);
-            })
-    }, [id])
+            const formattedblog = {
+                ...fetchedBlog,
+                createdAt : formatCreatedAt(fetchedBlog.createdAt)
+            }
+            // setBlog(response.data.blog);
+            setBlog(formattedblog);
+            setLoading(false);
+        })
+    },[])
     return {
         loading,
         blog
@@ -67,7 +70,7 @@ export const useBlogs = () => {
         // setBlogs(response.data.blogs);
         setLoading(false);
     })
-    })
+    },[token])
     return {
         loading,
         blogs

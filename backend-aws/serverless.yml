@@ -1,4 +1,6 @@
-service: backend-aws
+# "org" ensures this Service is used with the correct Serverless Framework Access Key.
+org: lone0wolf
+service: backend-forge
 
 provider:
   name: aws
@@ -30,6 +32,7 @@ functions:
               - Content-Type
               - X-Amz-Date
               - Authorization
+              - X-amzn-Remapped-authorization
               - X-Api-Key
               - X-Amz-Security-Token
               - X-Amz-User-Agent

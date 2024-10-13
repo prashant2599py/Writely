@@ -25,31 +25,31 @@ blogRouter.options('/*', (c) => {
 });
 const prisma = new PrismaClient().$extends(withAccelerate());
 
-blogRouter.use("/*",async (c, next)=> {
-    const authHeader = c.req.header("Authorization") || "";
-    // const token = authHeader.split('')[1];
-    // console.log(token);
-    const jwtSecret = process.env.JWT_SECRET as string;
-    const user = await verify(authHeader, jwtSecret)
+// blogRouter.use("/*",async (c, next)=> {
+//     const authHeader = c.req.header("Authorization") || "";
+//     // const token = authHeader.split('')[1];
+//     // console.log(token);
+//     const jwtSecret = process.env.JWT_SECRET as string;
+//     const user = await verify(authHeader, jwtSecret)
 
-    try{
-        if(user){
-            // c.set("userId" , user.id)
-            c.set("userId" , user.id as string)
-            await next();
-        }else{
-            c.status(403);
-            return c.json({
-                message : "You are not logged In"
-            })
-        }
-    }catch(e){
-        c.status(403);
-        return c.json({
-            message : "You are not logged in"
-        })
-    }
-})
+//     try{
+//         if(user){
+//             // c.set("userId" , user.id)
+//             c.set("userId" , user.id as string)
+//             await next();
+//         }else{
+//             c.status(403);
+//             return c.json({
+//                 message : "You are not logged In"
+//             })
+//         }
+//     }catch(e){
+//         c.status(403);
+//         return c.json({
+//             message : "You are not logged in"
+//         })
+//     }
+// })
 // Todo : add Pagination
 blogRouter.get('/bulk', async (c) => {
     c.header('Access-Control-Allow-Origin', 'http://localhost:5173')
@@ -67,7 +67,7 @@ blogRouter.get('/bulk', async (c) => {
     try{
         const jwtSecret  = process.env.JWT_SECRET as string
         const decoded = await verify(token, jwtSecret)
-        console.log( "decoded jwt : " + JSON.stringify(decoded));     
+        // console.log( "decoded jwt : " + JSON.stringify(decoded));     
 
         if (!decoded) {
             throw new Error('Invalid token');
@@ -148,8 +148,6 @@ blogRouter.put('/', async (c) => {
 
 blogRouter.get('/:id', async (c) => {
     const id = c.req.param("id");
-
-   
 
     try{
         const blog = await prisma.blog.findFirst({
