@@ -62,8 +62,8 @@ interface userNameProps{
 export function Avatar({ userName } : userNameProps){
     const { user } = useAuth0();
     const displayName = userName?.toUpperCase() || user?.name || 'U'
-    return (<div className="relative inline-flex items-center justify-center w-7 h-7 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
-        <span className="font-medium text-gray-600 dark:text-gray-300">
+    return (<div className="relative inline-flex items-center justify-center w-9 h-9 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
+        <span className="font-semibold text-lg text-gray-600 dark:text-gray-300 ">
            {displayName[0]}
         </span>
     </div>

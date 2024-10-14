@@ -5,6 +5,7 @@ import { Button } from "./ui/Button";
 import { useEffect, useState } from "react";
 import { BACKEND_URL } from "../config";
 
+
 export const Appbar = () => {
     
     interface User{
@@ -13,10 +14,13 @@ export const Appbar = () => {
     }
     
     const { isAuthenticated, logout } = useAuth0(); 
-    // const [dropDownOpen, setDropDownOpen] = useState(false);
+    const [isDropDownOpen, setIsDropDownOpen] = useState(false);
     const [user, setUser] = useState<User | null>(null);
     const [isUserAuthenticated, setIsUserAuthenticated ] = useState(false);
     
+    const toggleDropDown = () => {
+        setIsDropDownOpen( (prev) => !prev)
+    }
 
     useEffect( () => {
         const fetchUser = async () => {
@@ -26,12 +30,8 @@ export const Appbar = () => {
                     credentials: "include"
                 });
                 if (response.ok) {
-                    // Parse the response JSON
-                    const data = await response.json();
-                   
-                    // Set user data and authentication status
+                    const data = await response.json();   
                     setUser(data.user);  // Access the `user` object returned by the backend
-                    // console.log(data.user);
                     setIsUserAuthenticated(true);
                     console.log("Logged in");
                 }else{
@@ -55,13 +55,20 @@ export const Appbar = () => {
                 focus:ring-green-300 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2
                 ">New</button>
              </Link>
-             {(isUserAuthenticated && user) || isAuthenticated  ?  (<div>
-                <ul>
-                    <li><Avatar userName={user?.name} /></li>
-                    <li><button onClick={() => logout()}>Logout</button></li>
+             {(isUserAuthenticated && user) || isAuthenticated  ?  (
+                <div className="relative">
+                    <button onClick={toggleDropDown}>
+                            <Avatar userName={user?.name}/>
+                    </button>
 
-                </ul>
-                
+                    { isDropDownOpen && (
+                        <ul className="absolute right-0 bg-white border rounded shadow-lg mt-2">
+                            <li>
+                                <button onClick={ () => {logout(); setIsDropDownOpen(false); }} className="text-white bg-slate-800 px-2 py-2 rounded-lg">Logout</button>
+                            </li>
+
+                        </ul>
+                    ) }               
                 
              </div>)  : (
                 <Link to={`/signin`}>          
