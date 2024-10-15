@@ -97,8 +97,11 @@ blogRouter.get('/bulk', async (c) => {
     }   
 })
 
-blogRouter.post('/', async (c) => {
+blogRouter.post('/post', async (c) => {
+    // console.log("In blog Post route")
+    const auth  = getCookie(c,'token')
     const body = await c.req.json();
+    const user = await verify(auth as string, process.env.JWT_SECRET as string);
     const { success } = createBlogInput.safeParse(body);
 
     if(!success){
@@ -107,7 +110,17 @@ blogRouter.post('/', async (c) => {
             message : "Inputs are not correct"
         })
     }
+
+    if(user){
+        c.set('userId', user.id as string);
+    }else{
+        c.status(403);
+        return c.json({
+            message: "You are not logged in"
+        })
+    }
     const authorId  = c.get("userId");
+
     const blog = await prisma.blog.create({
         data : {
             title : body.title,
@@ -115,13 +128,13 @@ blogRouter.post('/', async (c) => {
             authorId : Number(authorId)
         }
     })
-
     return c.json({
+        message : "Blog Created Successfully",
         id : blog.id
     })
   })
   
-blogRouter.put('/', async (c) => {
+blogRouter.put('/update', async (c) => {
     const body = await c.req.json();
     const { success } = updateBlogInput.safeParse(body);
 

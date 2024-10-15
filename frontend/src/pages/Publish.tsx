@@ -20,11 +20,76 @@ export const Publish = () => {
     const navigate = useNavigate();
     const plainTextContent = convertToPlainText(content)
 
-    return <div>
+        async function handleRequest(){
+            try{
+                console.log("In route ")
+                const response =  await axios.post(`${BACKEND_URL}/api/v1/blog/post`, {
+                    title,
+                    content : plainTextContent
+                }, {
+                    headers: {
+                        'Content-Type'  :"application/json"
+                    },
+                    withCredentials: true
+                }
+            
+            
+            );
+                // console.log(response);
+                navigate(`/blog/${response.data.id}`)
+
+            }catch(err){
+                console.error(err)
+            }
+        }
+
+        return <div>
 
             <Appbar />
 
-            {/* <div className="flex justify-center my-8">
+            <div className="flex justify-center mt-8">
+                <div className=" w-2/3">
+                    <input onChange={(e)=> {
+                        setTitle(e.target.value)
+                    }} 
+                    id="title" className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border
+                     border-gray-300 focus:ring-blue-500 focus:border-blue-500  dark:placeholder-gray-400 
+                     dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Title..." />
+                </div>
+            </div>
+
+            <div className="flex justify-center mt-8">
+            
+                <JoditEditor
+                    ref = {editor}
+                    value = {content}
+                    onChange = {handleContentChange}
+                    config={{
+                        height: 400, // Set your desired height here
+                    }}
+                />
+            </div> 
+
+            <div className="flex justify-center mt-8">
+                <div className="flex items-center justify-between px-3 py-2 border-t">
+                    <button onClick={handleRequest}
+                    type="submit" className="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-black rounded-lg focus:ring-4 focus:ring-blue-200  hover:bg-zinc-900">
+                    Publish
+                    </button>
+                    
+                </div>
+                
+            </div>           
+    </div>
+}
+
+const convertToPlainText = (html: string) => {
+    const tempElement = document.createElement('div');
+    tempElement.innerHTML = html;
+    return tempElement.textContent || tempElement.innerText || '';
+}
+
+ {/* <div className="flex justify-center my-8">
                 
                 <div className="w-1/2">
                     
@@ -59,64 +124,3 @@ export const Publish = () => {
 
 
             </div> */}
-            <div className="flex justify-center mt-8">
-                <div className=" w-2/3">
-                    <input onChange={(e)=> {
-                        setTitle(e.target.value)
-                    }} 
-                    id="title" className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border
-                     border-gray-300 focus:ring-blue-500 focus:border-blue-500  dark:placeholder-gray-400 
-                     dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Title..." />
-                </div>
-            </div>
-
-            <div className="flex justify-center mt-8">
-            
-                <JoditEditor
-                    ref = {editor}
-                    value = {content}
-                    onChange = {handleContentChange}
-                    config={{
-                        height: 400, // Set your desired height here
-                    }}
-                />
-            </div> 
-
-            <div className="flex justify-center mt-8">
-                <div className="flex items-center justify-between px-3 py-2 border-t">
-                    <button onClick={async ()=>{
-                        const response =  await axios.post(`${BACKEND_URL}/api/v1/blog`, {
-                            title,
-                            content : plainTextContent
-                        });
-                        navigate(`/blog/${response.data.id}`)
-                    }}
-                    type="submit" className="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-black rounded-lg focus:ring-4 focus:ring-blue-200  hover:bg-zinc-900">
-                    Publish
-                    </button>
-                    
-                </div>
-                
-            </div>           
-    </div>
-}
-
-
-// export const TextEditor = ({ onChange } : {onChange: (e: ChangeEvent<HTMLTextAreaElement>) => void}) => {
-//     return <div>
-//         <div className="px-4 py-2 bg-white rounded-t-lg">    
-//             <textarea onChange={onChange} rows={8}  className="w-full px-0 text-sm text-gray-900 bg-white border-0  focus:ring-0 dark:text-black dark:placeholder-gray-400 focus:outline-none"  placeholder="Tell your story...." required />
-//         </div>
-//     </div>
-// }
-
-const convertToPlainText = (html: string) => {
-    const tempElement = document.createElement('div');
-    tempElement.innerHTML = html;
-    return tempElement.textContent || tempElement.innerText || '';
-}
-// {
-//     headers: {
-//         Authorization: localStorage.getItem("token")
-//     }
-// }

@@ -1,5 +1,5 @@
 export const LoaderSkeleton = () => {
-    return <div className="flex justify-center">
+    return <div className="flex justify-center bg-black">
         <div className=" shadow rounded-md p-4 max-w-lg w-full mx-auto mt-36 ">
             <div className="animate-pulse flex space-x-4 ">
                 <div className="rounded-full bg-slate-200 h-10 w-10"></div>

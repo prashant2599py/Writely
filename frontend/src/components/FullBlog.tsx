@@ -33,7 +33,7 @@ export const FullBlog  = ({ blog }: {blog : Blog}) => {
                             </div>
                             <div className="flex w-full">
                                 <div className="pr-4 flex flex-col justify-center">
-                                    <Avatar />
+                                    <Avatar userName={blog.author.name[0]} />
                                 </div>
                                 <div className="pt-4">
                                     <div className="text-xl font-bold">

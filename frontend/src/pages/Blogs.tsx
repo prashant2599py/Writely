@@ -19,8 +19,8 @@ export const  Blogs = () =>{
     }
     return <div>
         <Appbar />
-        <div className="flex justify-center">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
+        <div className="flex justify-center bg-gradient-to-b from-slate-900 to-indigo-800">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 ">
                 {blogs.map(blog => <BlogCard
                 key={blog.id}
                     id={blog.id}
