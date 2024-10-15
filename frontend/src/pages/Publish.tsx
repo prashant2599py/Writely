@@ -3,47 +3,72 @@ import  axios  from "axios"
 import { BACKEND_URL } from "../config"
 
 import { useNavigate } from "react-router-dom"
-import {  useRef, useState } from "react"
+import { useMemo, useRef, useState } from "react"
 import JoditEditor from 'jodit-react';
 
 
 export const Publish = () => {
     const editor = useRef(null);
     const [content, setContent] = useState<string>('');
-    
-
-    const handleContentChange = (newContent: string) => {
-        setContent(newContent);
-    }
-
     const [title, setTitle] = useState("");
     const navigate = useNavigate();
+    // const handleContentChange = (newContent : string) => {
+    //     setContent(newContent);
+    // }
+
+    const convertToPlainText = (html: string) => {
+        const tempElement = document.createElement('div');
+        tempElement.innerHTML = html;
+        return tempElement.textContent || tempElement.innerText || '';
+    }
     const plainTextContent = convertToPlainText(content)
 
-        async function handleRequest(){
-            try{
-                console.log("In route ")
-                const response =  await axios.post(`${BACKEND_URL}/api/v1/blog/post`, {
-                    title,
-                    content : plainTextContent
-                }, {
-                    headers: {
-                        'Content-Type'  :"application/json"
-                    },
-                    withCredentials: true
-                }
-            
-            
-            );
-                // console.log(response);
-                navigate(`/blog/${response.data.id}`)
+    const editorConfig = useMemo( () => ({
+        height : 400,
+    }), [])
 
-            }catch(err){
-                console.error(err)
-            }
+    async function handleRequest(){
+        try{
+            const response =  await axios.post(`${BACKEND_URL}/api/v1/blog/post`, {
+                title,
+                content : plainTextContent
+            }, {
+                headers: {
+                    'Content-Type'  :"application/json"
+                },
+                withCredentials: true
+            }        
+        );
+            // console.log(response);
+            navigate(`/blog/${response.data.id}`)
+
+        }catch(err){
+            console.error(err)
         }
+    }
+        
+        // const options = [ 'bold', 'italic', '|', 'ul', 'ol', '|', 'font', 'fontsize', '|', 'outdent', 'indent', 'align', '|', 'hr', '|', 'fullsize', 'brush', '|', 'table', 'link', '|', 'undo', 'redo',];
+        // const config = useMemo( () => ({
+        //     readonly: false,
+        //     placeholder: '',
+        //     defaultActionOnPaste: 'insert_as_html',
+        //     defaultLineHeight: 1.5,
+        //     enter: 'div',
+        //     // options that we defined in above step.
+        //     buttons: options,
+        //     buttonsMD: options,
+        //     buttonsSM: options,
+        //     buttonsXS: options,
+        //     statusbar: false,
+        //     sizeLG: 900,
+        //     sizeMD: 700,
+        //     sizeSM: 400,
+        //     toolbarAdaptive: false,
+        //     }),
+        //     [],
+        // );
 
-        return <div>
+        return <div className="h-screen bg-black">
 
             <Appbar />
 
@@ -53,8 +78,8 @@ export const Publish = () => {
                         setTitle(e.target.value)
                     }} 
                     id="title" className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border
-                     border-gray-300 focus:ring-blue-500 focus:border-blue-500  dark:placeholder-gray-400 
-                     dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Title..." />
+                    border-gray-300 focus:ring-blue-500 focus:border-blue-500  dark:placeholder-gray-400 
+                    dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Title..."  />
                 </div>
             </div>
 
@@ -62,65 +87,24 @@ export const Publish = () => {
             
                 <JoditEditor
                     ref = {editor}
-                    value = {content}
-                    onChange = {handleContentChange}
-                    config={{
-                        height: 400, // Set your desired height here
-                    }}
-                />
+                    value={content}
+                    onChange = {content => (setContent(content))}
+                    config={editorConfig}
+                    />
             </div> 
 
-            <div className="flex justify-center mt-8">
-                <div className="flex items-center justify-between px-3 py-2 border-t">
+            <div className="flex justify-center mt-8 bg-black">
+                <div className="flex items-center justify-between px-3 py-2">
                     <button onClick={handleRequest}
-                    type="submit" className="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-black rounded-lg focus:ring-4 focus:ring-blue-200  hover:bg-zinc-900">
+                    type="submit" className="font-medium rounded-2xl text-lg w-20 h-11 text-center me-2 mb-2 text-white bg-slate-700">
                     Publish
                     </button>
                     
                 </div>
                 
             </div>           
+    
     </div>
 }
 
-const convertToPlainText = (html: string) => {
-    const tempElement = document.createElement('div');
-    tempElement.innerHTML = html;
-    return tempElement.textContent || tempElement.innerText || '';
-}
 
- {/* <div className="flex justify-center my-8">
-                
-                <div className="w-1/2">
-                    
-                        <input onChange={(e)=> {
-                                setTitle(e.target.value)
-                            }} 
-                        id="title" className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500  dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Title..." />
-
-                    <div className="mt-8 w-full mb-4 border border-gray-200 rounded-lg  ">
-                        <TextEditor onChange={(e)=> {
-                                setDescription(e.target.value)
-                            }}  />
-                        <div className="flex items-center justify-between px-3 py-2 border-t">
-                            <button onClick={async ()=>{
-                                    const response =  await axios.post(`${BACKEND_URL}/api/v1/blog`, {
-                                        title,
-                                        content : description
-                                    }, {
-                                        headers: {
-                                            Authorization: localStorage.getItem("token")
-                                        }
-                                    });
-                                    navigate(`/blog/${response.data.id}`)
-                                }}
-                            type="submit" className="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-blue-700 rounded-lg focus:ring-4 focus:ring-blue-200  hover:bg-blue-800">
-                            Publish
-                            </button>
-                            
-                        </div>
-                    </div>
-                </div>
-
-
-            </div> */}
