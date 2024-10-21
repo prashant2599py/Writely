@@ -46,34 +46,24 @@ export const Publish = () => {
             console.error(err)
         }
     }
-        
-        // const options = [ 'bold', 'italic', '|', 'ul', 'ol', '|', 'font', 'fontsize', '|', 'outdent', 'indent', 'align', '|', 'hr', '|', 'fullsize', 'brush', '|', 'table', 'link', '|', 'undo', 'redo',];
-        // const config = useMemo( () => ({
-        //     readonly: false,
-        //     placeholder: '',
-        //     defaultActionOnPaste: 'insert_as_html',
-        //     defaultLineHeight: 1.5,
-        //     enter: 'div',
-        //     // options that we defined in above step.
-        //     buttons: options,
-        //     buttonsMD: options,
-        //     buttonsSM: options,
-        //     buttonsXS: options,
-        //     statusbar: false,
-        //     sizeLG: 900,
-        //     sizeMD: 700,
-        //     sizeSM: 400,
-        //     toolbarAdaptive: false,
-        //     }),
-        //     [],
-        // );
-
         return <div className="h-screen bg-black">
 
             <Appbar />
 
             <div className="flex justify-center mt-8">
                 <div className=" w-2/3">
+                    <div className="mb-3 ">
+                        
+                    {/* <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white" >Upload file</label>
+                    <input className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" id="file_input" type="file" /> */}
+                        <div className="max-w-lg font-[sans-serif]  mx-auto">
+                            <label className="text-base text-gray-500 font-semibold mb-2 block">Upload file</label>
+                            <input type="file"
+                                className="w-full text-gray-400 font-semibold text-sm bg-white border file:cursor-pointer cursor-pointer file:border-0 file:py-3 file:px-4 file:mr-4 file:bg-gray-100 file:hover:bg-gray-200 file:text-gray-500 rounded" />
+                            <p className="text-xs text-gray-400 mt-2">PNG, JPG SVG, WEBP, and GIF are Allowed.</p>
+                        </div>
+                    </div>
+
                     <input onChange={(e)=> {
                         setTitle(e.target.value)
                     }} 
