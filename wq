@@ -1,0 +1,119 @@
+[33mcommit a2ccd450f7ed1d950a4970285b8d186ba184ec77[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: Prashant Lodhi <prashantrajput2517@gmail.com>
+Date:   Mon Oct 21 14:29:27 2024 +0530
+
+    Initial commit to S3 integration
+
+[33mcommit 56b023456bee1db83c599bbeb61578751b7e5c47[m
+Author: Prashant Lodhi <prashantrajput2517@gmail.com>
+Date:   Tue Oct 15 20:06:02 2024 +0530
+
+    On onChange editor freeze fixes
+
+[33mcommit 47a21da5c7e1006cc8d02d9d8734ff8716e63136[m
+Author: Prashant Lodhi <prashantrajput2517@gmail.com>
+Date:   Tue Oct 15 16:14:00 2024 +0530
+
+    Publish Fix
+
+[33mcommit 252947489f6bc93c904bdca7bc28c4bb08608a75[m
+Author: Prashant Lodhi <prashantrajput2517@gmail.com>
+Date:   Mon Oct 14 17:42:18 2024 +0530
+
+    Drop Down fix
+
+[33mcommit 619e97a2587d591345f9efb31c185e07e6871fac[m
+Author: Prashant Lodhi <prashantrajput2517@gmail.com>
+Date:   Mon Oct 14 02:10:25 2024 +0530
+
+    Avatar fixes and user storage
+
+[33mcommit 79ef4c983934519639683f156b17200e3b7e8853[m
+Author: Prashant Lodhi <prashantrajput2517@gmail.com>
+Date:   Sun Oct 13 18:49:34 2024 +0530
+
+    sending more information to jwt
+
+[33mcommit 10db176c6e4addf25df7c41e3769d50151ebc7c8[m
+Author: Prashant Lodhi <prashantrajput2517@gmail.com>
+Date:   Wed Oct 9 16:13:28 2024 +0530
+
+    Signin fixed
+
+[33mcommit c6d9c6939f286ba4fdb5c5302ed34b6dada4bb1f[m
+Author: Prashant Lodhi <prashantrajput2517@gmail.com>
+Date:   Mon Oct 7 12:36:25 2024 +0530
+
+    removed deploy undefined dir
+
+[33mcommit e014c3df8c6f8395b0322c8f94365c426c87f96b[m
+Author: Prashant Lodhi <prashantrajput2517@gmail.com>
+Date:   Mon Oct 7 11:31:18 2024 +0530
+
+    user signin fix
+
+[33mcommit 826a2b97a9cfcbb2129207934b5b5e6c979b2a86[m
+Author: Prashant Lodhi <prashantrajput2517@gmail.com>
+Date:   Fri Oct 4 15:50:57 2024 +0530
+
+    untrack config
+
+[33mcommit c64037c0a1d7054739f20b53072ecfdcf0195a61[m
+Author: Prashant Lodhi <prashantrajput2517@gmail.com>
+Date:   Fri Oct 4 15:45:11 2024 +0530
+
+    changes config
+
+[33mcommit 846201c6fe21ed7d09ec7cf506727263f765ee72[m
+Author: Prashant Lodhi <prashantrajput2517@gmail.com>
+Date:   Fri Oct 4 15:41:50 2024 +0530
+
+    ---
+
+[33mcommit dc279ab9220688406080e03c6baae978a02bf5d5[m
+Author: Prashant Lodhi <prashantrajput2517@gmail.com>
+Date:   Fri Oct 4 15:38:55 2024 +0530
+
+    aws backend defined
+
+[33mcommit 0555871b66e275ef67f40d376a4ecd91d5499130[m
+Author: Prashant Lodhi <prashantrajput2517@gmail.com>
+Date:   Wed Oct 2 12:58:32 2024 +0530
+
+    debugging backend
+
+[33mcommit 775ba3e09599d42a3bac8e8ec6bd5bd653b10419[m
+Author: Prashant Lodhi <prashantrajput2517@gmail.com>
+Date:   Sun Sep 29 02:25:55 2024 +0530
+
+    fix date fetching
+
+[33mcommit 9a1d0f30ed6cc87293c0fb41b241650aa365552d[m
+Author: Prashant Lodhi <prashantrajput2517@gmail.com>
+Date:   Sat Sep 28 18:18:59 2024 +0530
+
+    db changes
+
+[33mcommit 7a5e4d24da36f4b20762be04a5fa52d8a92e4ba1[m
+Author: Prashant Lodhi <prashantrajput2517@gmail.com>
+Date:   Sat Sep 21 12:37:18 2024 +0530
+
+    Google Authentication added
+
+[33mcommit 877fde86e81d3d3aaa468427b250314826fdf4cc[m
+Author: Prashant Lodhi <prashantrajput2517@gmail.com>
+Date:   Wed Sep 18 11:23:26 2024 +0530
+
+    seed data pushed
+
+[33mcommit f47cd52c8d5ca0165ef7b06655b83e0573611fad[m
+Author: Prashant Lodhi <prashantrajput2517@gmail.com>
+Date:   Tue Sep 17 11:29:56 2024 +0530
+
+    Landing page added
+
+[33mcommit f2b98522d78982592e8aed9ff1e393beed636b51[m
+Author: Prashant Lodhi <prashantrajput2517@gmail.com>
+Date:   Tue Jul 2 15:25:14 2024 +0530
+
+    changes of database and secrets

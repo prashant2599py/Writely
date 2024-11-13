@@ -11,7 +11,7 @@ interface BlogCardProps{
     title : string,
     content : string,
     publishedDate : string,
-
+    coverImage : string,
 }
 
 
@@ -21,6 +21,7 @@ export const BlogCard = ({
     title,
     content,
     publishedDate,
+    coverImage,
 }: BlogCardProps) => {
     // const { user } = useAuth0();
     // console.log(JSON.stringify(user));
@@ -34,7 +35,7 @@ export const BlogCard = ({
                             className="bg-gradient-to-br from-gray-800 to-gray-900 rounded-lg overflow-hidden shadow-lg w-3/4"
                         >
 
-                            <img src={`/placeholder.svg?height=200&width=400`} alt="Blog post" className="w-full h-48 object-cover" />
+                            <img src={coverImage} alt="image" typeof="file" className="mt-2 px-2 h-48 object-cover" />
                             
                             <div className="p-6">
                             <h4 className="text-lg font-semibold mb-2 text-white">{title}</h4>

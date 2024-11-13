@@ -13,7 +13,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
 model User{
   id Int   @id @default(autoincrement())
   auth0ID  String? @unique
@@ -28,6 +27,7 @@ model Blog{
   authorId Int
   content String
   title String
+  coverImage String?
   publised Boolean @default(false)
   tags     String[]
   createdAt DateTime @default(now())

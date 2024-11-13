@@ -12,7 +12,7 @@ export default function Landing() {
     <div className="flex flex-col min-h-screen bg-gradient-to-br from-gray-900 to-black text-white">
       <header className="px-4 lg:px-6 h-20 flex items-center bg">
         <Link className="flex items-center justify-center" to="/">
-          <div className="sr-only">Blogify</div>
+          <div className="sr-only">Writely</div>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"
@@ -30,7 +30,7 @@ export default function Landing() {
             <path d="M8 11h8" />
             <path d="M8 15h6" />
           </svg>
-          <div className="ml-2 text-3xl h-18 font-bold text-transparent bg-clip-text bg-gradient-to-r from-slate-300 to bg-slate-200">Blogify</div>
+          <div className="ml-2 text-3xl h-18 font-bold text-transparent bg-clip-text bg-gradient-to-r from-slate-300 to bg-slate-200">Writely</div>
         </Link>
         <nav className="ml-auto flex gap-4 sm:gap-6">
           <Link className="text-sm font-medium hover:underline underline-offset-4" to="/">
@@ -109,7 +109,7 @@ export default function Landing() {
         </section>
       </main>
       <footer className="flex flex-col gap-2 sm:flex-row py-6 w-full shrink-0 items-center px-4 md:px-6 border-t">
-        <p className="text-xs text-gray-500 dark:text-gray-400">© 2023 Blogify. All rights reserved.</p>
+        <p className="text-xs text-gray-500 dark:text-gray-400">© 2024 Writely. All rights reserved.</p>
         <nav className="sm:ml-auto flex gap-4 sm:gap-6">
           <Link className="text-xs hover:underline underline-offset-4" to="/terms">
             Terms of Service

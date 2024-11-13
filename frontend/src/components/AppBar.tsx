@@ -47,7 +47,7 @@ export const Appbar = () => {
     
     return <div className=" flex justify-between px-20 py-4 bg-gradient-to-l from-slate-900 to-indigo-600">
         <Link to={'/blogs'} className="flex flex-col justify-center font-semibold font-serif text-4xl bg-clip-text text-transparent bg-gradient-to-r from-slate-600 to-black ">
-            StoryForge
+            Writely
         </Link>
         <div className="flex">
             <Link to={`/publish`}>
@@ -72,7 +72,8 @@ export const Appbar = () => {
                 
              </div>)  : (
                 <Link to={`/signin`}>          
-                    <Button className="p-2 justify-center">Login</Button>
+                    <Button className="p-2 text-white bg-black hover:bg-black focus:outline-none focus:ring-4
+                 font-medium rounded-2xl text-lg w-20 h-11 text-center">Login</Button>
                 </Link>
              )
              }             

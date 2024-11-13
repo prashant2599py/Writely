@@ -11,6 +11,7 @@ function formatCreatedAt(dateString: string): string {
 export interface Blog{
         "content": string,
         "title": string,
+        "coverImage" : string,
         "id": number,
         "author": {
             "name": string
@@ -24,24 +25,31 @@ export const useBlog = ({ id }: {id : string }) => {
 
     const token = localStorage.getItem('token');
     useEffect(()=>{
-        axios.get(`${BACKEND_URL}/api/v1/blog/${id}`,{
-            headers: {
-                Authorization : token
-            },
-            withCredentials: true
-        })
-        .then(response => {
-            const fetchedBlog = response.data.blog;
+        if(!blog){
+            axios.get(`${BACKEND_URL}/api/v1/blog/${id}`,{
+                headers: {
+                    Authorization : token
+                },
+                withCredentials: true
+            })
+            .then(response => {
+                const fetchedBlog = response.data.blog;
+    
+                const formattedblog = {
+                    ...fetchedBlog,
+                    createdAt : formatCreatedAt(fetchedBlog.createdAt)
+                }
+                // setBlog(response.data.blog);
+                setBlog(formattedblog);
+                setLoading(false);
+            })
+            .catch(error => {
+                console.error("Error fetching blogs", error);
+                setLoading(false);
+            })
 
-            const formattedblog = {
-                ...fetchedBlog,
-                createdAt : formatCreatedAt(fetchedBlog.createdAt)
-            }
-            // setBlog(response.data.blog);
-            setBlog(formattedblog);
-            setLoading(false);
-        })
-    },[blog])
+        }
+    },[id,token, blog])
     return {
         loading,
         blog

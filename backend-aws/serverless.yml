@@ -15,8 +15,9 @@ provider:
     role:
       statements:
       - Effect: Allow
-        Action: "*"
-        Resource: "*"
+        Action: 
+          - "s3:GetObject"
+        Resource: "arn:aws:s3:::bucket.lodhi.blog.dev/uploads/*"
 
 functions:
   app:
@@ -37,6 +38,8 @@ functions:
               - X-Amz-Security-Token
               - X-Amz-User-Agent
             allowCredentials: true
+      
+              
 plugins:
   - serverless-offline
   - serverless-dotenv-plugin

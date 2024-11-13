@@ -14,10 +14,12 @@ userRouter.options('/*', (c) => {
   c.header('Access-Control-Allow-Credentials', 'true');
   c.header('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE,OPTIONS');
   c.header('Access-Control-Allow-Headers', 'Content-Type,Authorization');
-
+  
   return c.text('', 204); // Send a 204 No Content response
 });
+
 const prisma = new PrismaClient().$extends(withAccelerate())
+
 userRouter.post('/signup', async (c) => {  
   const body = await c.req.json()
   const { success } = signupInput.safeParse(body);
@@ -27,7 +29,7 @@ userRouter.post('/signup', async (c) => {
         message : "Inputs are not correct"
       })
     }
-
+  
     try{
       const user = await prisma.user.create({
         data : {
@@ -76,11 +78,6 @@ userRouter.post('/signin', async (c) => {
     return c.json({ message: "JWT_SECRET is not defined" });
   }
 
-  // const remappedAuth = c.req.header('x-amzn-remapped-authorization');
-  // const header = { ...c.req.header} as Record<string, string>;
-  // if(remappedAuth){
-  //   header['Authorization'] = remappedAuth;
-  // }
   const body = await c.req.json();
   const { success } = signinInput.safeParse(body);
 
