@@ -1,6 +1,6 @@
 import { useAuth0 } from "@auth0/auth0-react"
 import { Link } from "react-router-dom"
-import  { motion } from "framer-motion"
+// import  { motion } from "framer-motion"
 import { Button } from "./ui/Button";
 
 
@@ -26,35 +26,30 @@ export const BlogCard = ({
     // const { user } = useAuth0();
     // console.log(JSON.stringify(user));
     
-    return <Link to={`/blog/${id}`}>
-                <div className="pb-4 pt-8 cursor-pointer max-w-screen-md  ml-12">
-                        <motion.div                           
-                            initial={{ opacity: 0, scale: 0.9 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            transition={{ duration: 0.5, delay: 0.2 }}
-                            className="bg-gradient-to-br from-gray-800 to-gray-900 rounded-lg overflow-hidden shadow-lg w-3/4"
-                        >
-
-                            <img src={coverImage} alt="image" typeof="file" className="mt-2 px-2 h-48 object-cover" />
-                            
-                            <div className="p-6">
-                            <h4 className="text-lg font-semibold mb-2 text-white">{title}</h4>
-                            <p className="text-gray-400 mb-4">{content.slice(0,100) + "..."}</p>
-                            <Button  className="text-white border-white border-2 bg-black hover:bg-white hover:text-black hover:font-semibold p-2 rounded-lg">
-                                Ream more....
-                                {/* Read More <ChevronRight className="ml-2 h-4 w-4" /> */}
-                            </Button>
-                            </div>
-                            <div className="text-white ml-4">Created on : {publishedDate}</div>
-                            <p className="ml-4 text-white">Published By: {authorName}</p>
-                            <div className="text-slate-500 text-sm font-thin pt-2 mb-4 ml-4">
-                                {`${Math.ceil(content.length / 100)} minute(s) read`}
-                            </div>
-                    </motion.div>
-                            
-
+    return (
+        <Link to={`/blog/${id}`}>
+            <div className=" bg-gradient-to-br from-gray-900 to-black max-w-screen-md flex mb-8 h-60 py-2 mt-2">
+                <div>
+                    <img src={coverImage} alt="blog-image" className="h-48 w-72 px-2 py-2" />
                 </div>
+                <div className="justify-center ml-8 ">
+                    <div className="text-white font-bold text-2xl">{title}</div>
+                    <div className="mt-2 mb-2 max-w-screen-sm">
+                        <p className="text-slate-500">{content.slice(0,100) + "..."}</p>
+                    </div>
+                    <Button  className="text-white border-white border-2 bg-black hover:bg-white hover:text-black hover:font-semibold p-2 rounded-lg">
+                        Ream more....
+                    </Button>
+                    <div className="mt-2">
+                        <p className="text-slate-500">Published By: {authorName}</p>
+                    </div>
+                    <div>
+                        <p className="text-slate-400">Posted on: {publishedDate}</p>
+                    </div>
+                </div>
+            </div>        
         </Link>
+    )
 }
 
 interface userNameProps{

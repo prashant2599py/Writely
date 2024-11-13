@@ -64,7 +64,7 @@ export const Appbar = () => {
                     { isDropDownOpen && (
                         <ul className="absolute right-0 bg-white border rounded shadow-lg mt-2">
                             <li>
-                                <button onClick={ () => {logout(); setIsDropDownOpen(false); }} className="text-white bg-slate-800 px-2 py-2 rounded-lg">Logout</button>
+                                <button onClick={ () => {logout(); setIsDropDownOpen(false); }} className="font-semibold px-2 py-2 text-slate-600 ">Logout</button>
                             </li>
 
                         </ul>

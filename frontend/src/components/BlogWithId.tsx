@@ -52,7 +52,7 @@ export const FullBlog  = ({ blog }: {blog : Blog}) => {
                                 created on:
                                 {blog.createdAt}
                             </div>
-                            <div className="pt-4 pr-2">
+                            <div className="pt-4 pr-2 mb-8">
                                 {blog.content}
                             </div>
                             {/* <Link to={"/update"}>
@@ -60,14 +60,14 @@ export const FullBlog  = ({ blog }: {blog : Blog}) => {
                             </Link> */}
                     </div>
                     <div className="col-span-4 ">
-                            <div className="text-lg text-slate-600 ml-10">
+                            <div className="text-lg text-slate-600 ml-12">
                                 Author
                             </div>
                             <div className="flex w-full">
                                 <div className="pr-4 flex flex-col justify-center">
                                     <Avatar userName={blog.author.name[0]} />
                                 </div>
-                                <div className="pt-4">
+                                <div className="pt-1">
                                     <div className="text-xl font-bold">
                                         {blog.author.name || "User"}
                                     </div>
