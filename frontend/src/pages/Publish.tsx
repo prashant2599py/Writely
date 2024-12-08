@@ -28,50 +28,45 @@ export const Publish = () => {
 
     async function handleRequest(event :React.FormEvent<HTMLFormElement>){
         event.preventDefault();
-        const fileInput = document.getElementById('file') as HTMLInputElement;
-        const selectedFile = fileInput?.files?.[0];
+        // const fileInput = document.getElementById('file') as HTMLInputElement;
+        // const selectedFile = fileInput?.files?.[0];
 
-        if (!selectedFile) {
-            console.error("No file selected");
-            return;
-        }
+        // if (!selectedFile) {
+        //     console.error("No file selected");
+        //     return;
+        // }
 
-        
-        try{
-            const responseurl = await fetch(`${BACKEND_URL}/api/v1/blog/upload` , {
-                method: 'POST',
-                headers : {
-                    'Content-Type': 'multipart/form-data',
-                },
-                body : JSON.stringify({
-                    fileName : selectedFile.name,
-                    fileType : selectedFile.type,
-                })
-            });
-            console.log(responseurl);
-            
-            const { fileurl } = await responseurl.json();
+        // const formData = new FormData();
+        // formData.append('image', selectedFile);
+        try{    
+        //     const responseurl = await fetch(`${BACKEND_URL}/api/v1/blog/upload`, {
+        //         method: 'POST',
+        //         body : formData,
+        //         headers: {
+        //             "Content-Type": "multipart/form-data",
+        //         }
+        //     });
+        //     const { fileurl } = await responseurl.json();                 
 
             const response =  await axios.post(`${BACKEND_URL}/api/v1/blog/post`, {
                 title,
                 content : plainTextContent,
-                coverImage : fileurl,
+                coverImage : "",
                 
             }, {
-                headers: {
-                    'Content-Type'  :"application/json"
-                },
+                // headers: {
+                //     'Content-Type'  :"application/json"
+                // },
                 withCredentials: true
             }        
         );
-        console.log("blog post response :"+ JSON.stringify(response));
-        // const imageUrl = new URL(response.data.coverImage);
-        // const imageKey =  `uploads/${imageUrl.pathname.split('/').pop()}`;
+        // console.log(response);
         navigate(`/blog/${response.data.id}`)
         // return fileurl;
 
-        }catch(err){
-            console.error(err)
+        }catch(error){
+            console.log(error)
+
         }
     }
         return(

@@ -1,4 +1,4 @@
-import { FullBlog } from "../components/BlogWithId";
+import { BlogWithId } from "../components/BlogWithId";
 import { LoaderSkeleton } from "../components/LoaderSkeleton";
 import { useBlog } from "../hooks"
 import { useParams } from "react-router-dom";
@@ -21,6 +21,6 @@ export const Blog  = () => {
     }
 
     return <div>
-        <FullBlog blog={blog} />
+        <BlogWithId blog={blog} />
     </div>
 }

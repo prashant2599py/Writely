@@ -14,14 +14,25 @@ export interface Blog{
         "coverImage" : string,
         "id": number,
         "author": {
+            "id": number,
             "name": string
         },
         "createdAt" : string,
+        "comments" ?: Array<{
+            id: number,
+            author :{
+                id : number,
+                name : string
+            }
+            content: string,
+            createdAt: string
+        }>,
 }
 
 export const useBlog = ({ id }: {id : string }) => {
     const [loading, setLoading] = useState(true);
     const [blog, setBlog] = useState<Blog>();
+    
 
     const token = localStorage.getItem('token');
     useEffect(()=>{
@@ -52,7 +63,7 @@ export const useBlog = ({ id }: {id : string }) => {
     },[id,token, blog])
     return {
         loading,
-        blog
+        blog,
     }
 }
 

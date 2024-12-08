@@ -33,7 +33,7 @@ export const Appbar = () => {
                     const data = await response.json();   
                     setUser(data.user);  // Access the `user` object returned by the backend
                     setIsUserAuthenticated(true);
-                    console.log("Logged in");
+                    // console.log("Logged in");
                 }else{
                     setIsUserAuthenticated(false);
                 }

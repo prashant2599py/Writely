@@ -12,6 +12,7 @@ interface BlogCardProps{
     content : string,
     publishedDate : string,
     coverImage : string,
+    comments?: string,
 }
 
 
@@ -22,6 +23,7 @@ export const BlogCard = ({
     content,
     publishedDate,
     coverImage,
+    comments,
 }: BlogCardProps) => {
     // const { user } = useAuth0();
     // console.log(JSON.stringify(user));
@@ -40,12 +42,17 @@ export const BlogCard = ({
                     <Button  className="text-white border-white border-2 bg-black hover:bg-white hover:text-black hover:font-semibold p-2 rounded-lg">
                         Ream more....
                     </Button>
-                    <div className="mt-2">
-                        <p className="text-slate-500">Published By: {authorName}</p>
-                    </div>
-                    <div>
-                        <p className="text-slate-400">Posted on: {publishedDate}</p>
-                    </div>
+                        <div className="mt-2">
+                            <p className="text-slate-400 text-xs">Comments({comments})</p>
+                        </div>
+                        <div className="flex justify-end mr-4">
+                            <p className="text-slate-500 text-xs">Published By: {authorName}</p>
+                        </div>
+                        <div className="flex justify-end mr-4">
+                            <p className="text-slate-400 text-xs">Posted on: {publishedDate}</p>
+                        </div>
+                       
+                  
                 </div>
             </div>        
         </Link>
