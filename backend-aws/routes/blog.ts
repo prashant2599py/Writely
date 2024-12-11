@@ -237,15 +237,15 @@ blogRouter.get('/:id', async (c) => {
                 }
             }
         })
-        const comments = await prisma.comment.findMany({
-            where: {
-                blogId: Number(id)
-            }
-        });
+        // const comments = await prisma.comment.findMany({
+        //     where: {
+        //         blogId: Number(id)
+        //     }
+        // });
     
         return c.json({
             blog,
-            comments
+            // comments
         })
     }catch(e){
         c.status(411);
@@ -262,7 +262,7 @@ blogRouter.post("/:id/comment/:authorId", async (c) =>{
     // console.log(body);
 
     try{
-        const comment = await prisma.comment.create({
+        await prisma.comment.create({
             data: {
                 content : body.postComment,
                 blogId: Number(id),
@@ -270,7 +270,7 @@ blogRouter.post("/:id/comment/:authorId", async (c) =>{
             }
         })
         c.status(201)
-        return c.json(comment);
+        return c.json({ redirectUrl :  `${id}`});
     }catch(error){
         console.log(error);
         return c.json({message : "Error creating comment"});

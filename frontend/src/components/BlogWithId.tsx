@@ -37,10 +37,17 @@ export const BlogWithId  = ({ blog }: {blog : Blog}) => {
         e.preventDefault()
         const id = blog.id;
         const authorId = user?.id;
-        await axios.post(`${BACKEND_URL}/api/v1/blog/${id}/comment/${authorId}`, {
+        const response = await axios.post(`${BACKEND_URL}/api/v1/blog/${id}/comment/${authorId}`, {
             postComment,
-        });
-        // console.log(response);
+        }); 
+        setPostComment('');
+        
+        if(response.status === 201){
+            const dataFound = await response.data;
+            window.location.href = dataFound.redirectUrl;
+        }else{
+            console.error("Error creating comment")
+        }
     }
 
     if (!blog) {    
@@ -50,7 +57,7 @@ export const BlogWithId  = ({ blog }: {blog : Blog}) => {
     // console.log(user);
     return <div>
         <Appbar />
-            <div className="flex justify-center">
+            <div className="flex justify-center bg-black">
                 <div className="grid grid-cols-12 w-full px-20 pt-200 max-w-screen-xl pt-12">
                     <div className="col-span-8">
                         <div>
@@ -61,37 +68,37 @@ export const BlogWithId  = ({ blog }: {blog : Blog}) => {
                             created on:
                             {blog.createdAt}
                         </div>
-                        <div className="text-6xl font-extrabold mt-8">
+                        <div className="text-6xl font-extrabold mt-8 text-white">
                             {blog.title}
                         </div>
-                        <div className="pt-4 pr-2 mb-8">
+                        <div className="pt-4 pr-2 mb-8 text-white">
                             {blog.content}
                         </div>
                         
                         {/* <Link to={"/update"}>
                             <Button className="bg-blue-600 p-3 rounded-lg hover:bg-blue-400 border-2 hover:border-black">Update</Button>
                         </Link> */}
-                        <div className="text-3xl font-bold">
-                            Comments({blog.comments?.length})
+                        <div className="text-3xl font-bold text-white">
+                            Comments({ blog.comments?.length})
                         </div>
                         <div className="h-44 justify-center">
                             {/* <img src="" alt="" /> */}
                             {/* <label className="flex" >What are your thoughts?</label> */}
                             <form onSubmit={handleRequest}>
-                                <input type="text" id="comments" onChange={(e) => setPostComment(e.target.value)} placeholder="What are your thoughts?" className="mt-4 h-12 w-full text-gray-800 font-semibold text-sm bg-white border-slate-500 border-2 cursor-pointer  rounded" />
+                                <input type="text" id="comments" onChange={(e) => setPostComment(e.target.value)} placeholder=" What are your thoughts?" className="mt-4 h-12 w-full text-gray-800 font-semibold text-sm bg-slate-500 border-slate-500 border-2 cursor-pointer  rounded" />
                                 <button type="submit" className="mt-4 bg-slate-500 px-4 py-2 rounded-md">Post Comment</button>
                             </form>
                         </div>
                         {blog.comments?.length  && (
-                            <div key={blog.id} className="">
+                            <div  className="">
                                 {blog.comments?.map((comment) => (
-                                    <div className="flex">
+                                    <div key={comment.id} className="flex">
                                         <div>
                                             <Avatar userName={comment.author.name[0]}/>
                                         </div>
-                                        <div key={comment.id} className="border-t ml-4">
-                                            <div className="font-semibold text-2xl">{comment.author.name}</div>
-                                            <div className="pt-2 text-lg mx-2 mb-4">{comment.content}</div>
+                                        <div className=" ml-4">
+                                            <div className="font-semibold text-2xl text-white">{comment.author.name}</div>
+                                            <div className="pt-2 text-lg mx-2 mb-6 text-white">{comment.content}</div>
                                         </div>
                                     </div>
                                 ))}
@@ -99,7 +106,7 @@ export const BlogWithId  = ({ blog }: {blog : Blog}) => {
                         )}
                     </div>
                     <div className="col-span-4 ">
-                            <div className="text-lg text-slate-600 ml-12">
+                            <div className="text-lg text-white ml-12">
                                 Author
                             </div>
                             <div className="flex w-full">
@@ -108,7 +115,7 @@ export const BlogWithId  = ({ blog }: {blog : Blog}) => {
                                 </div>
                                 
                                 <div className="pt-1">
-                                    <div className="text-xl font-bold">
+                                    <div className="text-xl font-bold text-white">
                                         {blog.author.name || "User"}
                                     </div>
                                     <div className="pt-2 text-slate-500">

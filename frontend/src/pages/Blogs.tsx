@@ -28,8 +28,7 @@ export const  Blogs = () =>{
                     authorName={blog.author.name|| "User"}
                     title={blog.title}
                     content={blog.content}
-                    publishedDate={blog.createdAt}
-                    // comments={blog.comments}
+                    publishedDate={blog.createdAt}  
                     />
                 )}
                 {/* {JSON.stringify(blogs)} */}

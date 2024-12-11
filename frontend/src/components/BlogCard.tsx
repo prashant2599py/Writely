@@ -12,7 +12,6 @@ interface BlogCardProps{
     content : string,
     publishedDate : string,
     coverImage : string,
-    comments?: string,
 }
 
 
@@ -23,14 +22,13 @@ export const BlogCard = ({
     content,
     publishedDate,
     coverImage,
-    comments,
 }: BlogCardProps) => {
     // const { user } = useAuth0();
     // console.log(JSON.stringify(user));
     
     return (
         <Link to={`/blog/${id}`}>
-            <div className=" bg-gradient-to-br from-gray-900 to-black max-w-screen-md flex mb-8 h-60 py-2 mt-2">
+            <div className=" bg-gradient-to-br from-gray-900 to-black max-w-screen-md flex mb-8 h-60 py-2 mt-2 rounded-sm">
                 <div>
                     <img src={coverImage} alt="blog-image" className="h-48 w-72 px-2 py-2" />
                 </div>
@@ -42,17 +40,13 @@ export const BlogCard = ({
                     <Button  className="text-white border-white border-2 bg-black hover:bg-white hover:text-black hover:font-semibold p-2 rounded-lg">
                         Ream more....
                     </Button>
-                        <div className="mt-2">
-                            <p className="text-slate-400 text-xs">Comments({comments})</p>
-                        </div>
+                        
                         <div className="flex justify-end mr-4">
                             <p className="text-slate-500 text-xs">Published By: {authorName}</p>
                         </div>
                         <div className="flex justify-end mr-4">
                             <p className="text-slate-400 text-xs">Posted on: {publishedDate}</p>
-                        </div>
-                       
-                  
+                        </div>                        
                 </div>
             </div>        
         </Link>
