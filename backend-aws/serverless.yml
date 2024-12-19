@@ -17,7 +17,11 @@ provider:
       - Effect: Allow
         Action: 
           - "s3:GetObject"
+          - "s3:PutObject"
         Resource: "arn:aws:s3:::bucket.lodhi.blog.dev/uploads/*"
+
+package: 
+  excludeDevDependencies: true
 
 functions:
   app:

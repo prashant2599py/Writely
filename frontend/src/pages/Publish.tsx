@@ -2,66 +2,63 @@ import { Appbar } from "../components/AppBar"
 import  axios  from "axios"
 import { BACKEND_URL } from "../config"
 
-import { useNavigate } from "react-router-dom"
-import { useMemo, useRef, useState } from "react"
-import JoditEditor from 'jodit-react';
+// import { useNavigate } from "react-router-dom"
+import {   useState } from "react"
+// import JoditEditor from 'jodit-react';
 
 
 
 export const Publish = () => {
-    const editor = useRef(null);
-    const [content, setContent] = useState<string>('');
+    // const editor = useRef(null);
+    // const [content, setContent] = useState<string>('');
     const [title, setTitle] = useState("");
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
 
 
-    const convertToPlainText = (html: string) => {
-        const tempElement = document.createElement('div');
-        tempElement.innerHTML = html;
-        return tempElement.textContent || tempElement.innerText || '';
-    }
-    const plainTextContent = convertToPlainText(content)
+    // const convertToPlainText = (html: string) => {
+    //     const tempElement = document.createElement('div');
+    //     tempElement.innerHTML = html;
+    //     return tempElement.textContent || tempElement.innerText || '';
+    // }
+    // const plainTextContent = convertToPlainText(content)
 
-    const editorConfig = useMemo( () => ({
-        height : 400,
-    }), [])
+    // const editorConfig = useMemo( () => ({
+    //     height : 400,
+    // }), [])
 
     async function handleRequest(event :React.FormEvent<HTMLFormElement>){
         event.preventDefault();
-        // const fileInput = document.getElementById('file') as HTMLInputElement;
-        // const selectedFile = fileInput?.files?.[0];
+        const fileInput = document.getElementById('file') as HTMLInputElement;
+        const selectedFile = fileInput?.files?.[0];
 
-        // if (!selectedFile) {
-        //     console.error("No file selected");
-        //     return;
-        // }
+        if (!selectedFile) {
+            console.error("No file selected");
+            return;
+        }
 
-        // const formData = new FormData();
-        // formData.append('image', selectedFile);
+        const formData = new FormData();
+        formData.append('file', selectedFile);
+        formData.append('title',title);
         try{    
-        //     const responseurl = await fetch(`${BACKEND_URL}/api/v1/blog/upload`, {
-        //         method: 'POST',
-        //         body : formData,
-        //         headers: {
-        //             "Content-Type": "multipart/form-data",
-        //         }
-        //     });
-        //     const { fileurl } = await responseurl.json();                 
-
-            const response =  await axios.post(`${BACKEND_URL}/api/v1/blog/post`, {
-                title,
-                content : plainTextContent,
-                coverImage : "",
+          const responseurl = await axios.post(`${BACKEND_URL}/api/v1/blog/upload`, formData)
+                    
+        //    console.log(response)
+            const fileurl = responseurl.data;
+            console.log(fileurl)
+        //     const response =  await axios.post(`${BACKEND_URL}/api/v1/blog/post`, {
+        //         title,
+        //         content : plainTextContent,
+        //         coverImage : fileurl ||"",
                 
-            }, {
-                // headers: {
-                //     'Content-Type'  :"application/json"
-                // },
-                withCredentials: true
-            }        
-        );
-        // console.log(response);
-        navigate(`/blog/${response.data.id}`)
+        //     }, {
+        //         // headers: {
+        //         //     'Content-Type'  :"application/json"
+        //         // },
+        //         withCredentials: true
+        //     }        
+        // );
+        // // console.log(response);
+        // navigate(`/blog/${response.data.id}`)
         // return fileurl;
 
         }catch(error){
@@ -80,6 +77,7 @@ export const Publish = () => {
                             <div className="max-w-lg font-[sans-serif]  mx-auto">
                                 <label className="text-base text-gray-500 font-semibold mb-2 block">Upload file</label>
                                 <input
+                                    accept="image/*"
                                     type="file"
                                     name="file"
                                     id="file"
@@ -95,15 +93,15 @@ export const Publish = () => {
                             className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             placeholder="Title..."
                         />
-
-                        <div className="flex justify-center mt-8">
+ 
+                        {/* <div className="flex justify-center mt-8">
                             <JoditEditor
                                 ref={editor}
                                 value={content}
                                 onChange={content => setContent(content)}
                                 config={editorConfig}
                             />
-                        </div>
+                        </div> */}
 
                         <div className="flex justify-center mt-8">
                             <div className="flex items-center justify-between px-3 py-2">

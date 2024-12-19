@@ -1,13 +1,14 @@
-import "dotenv/config"
+import dotenv from 'dotenv'
+dotenv.config();
 import { PrismaClient } from "@prisma/client/edge";
 import { withAccelerate } from "@prisma/extension-accelerate";
 import { Hono } from "hono";
 import { verify } from "hono/jwt";
 import { createBlogInput, updateBlogInput } from "@plodhi/medium-common";
 import { getCookie } from "hono/cookie";
-import { v2 as cloudinary } from "cloudinary";
-import { encodeBase64 } from "hono/utils/encode";
-// import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
+
+
+import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
 
 
 export const blogRouter = new Hono<{
@@ -20,14 +21,14 @@ export const blogRouter = new Hono<{
     }
 }>();
 
-blogRouter.use(async (_c, next)=>{
-    cloudinary.config({
-        cloud_name : process.env.CLOUDINARY_CLOUD_NAME,
-        api_key : process.env.CLOUDINARY_API_KEY,
-        api_secret : process.env.CLOUDINARY_API_SECRET,
-    });
-    await next();
-})
+// blogRouter.use(async (_c, next)=>{
+//     cloudinary.config({
+//         cloud_name : process.env.CLOUDINARY_CLOUD_NAME,
+//         api_key : process.env.CLOUDINARY_API_KEY,
+//         api_secret : process.env.CLOUDINARY_API_SECRET,
+//     });
+//     await next();
+// })
 
 blogRouter.options('/*', (c) => {
   c.header('Access-Control-Allow-Origin', 'http://localhost:5173');
@@ -39,19 +40,54 @@ blogRouter.options('/*', (c) => {
 });
 const prisma = new PrismaClient().$extends(withAccelerate());
 
-// const s3Client = new S3Client({
-//     region: "ap-south-1"
+const s3Client = new S3Client({
+    region: "ap-south-1"
     
-// })
+})
 
+blogRouter.post("/upload", async (c) => {
 
-// blogRouter.post('/upload', async(c) => {
-//     const formdata = await c.req.formData();
-//     console.log(formdata);
-//     const file = formdata.get('file')
-//     if(!(file instanceof File)){
-//         return c.json({error : "File not found"}, 400);
-//     }
+    const body = await c.req.formData();
+    const file = body.get('file');
+
+    if (file && file instanceof File) {
+        // Read the file as a buffer
+        const fileBuffer = await file.arrayBuffer();
+        const buffer = Buffer.from(fileBuffer);
+        
+        const fileName = file.name;
+        const uniqueFileName = `${Date.now()}-${fileName}`
+        // Log buffer length or other properties
+        // console.log(buffer);
+        // console.log('Buffer length:', buffer.length);
+
+        // return c.json({
+        //     fileName: file.name,
+        //     fileSize: file.size,
+        //     fileType: file.type,
+        //     message: 'Uploaded successfully',
+        // });
+        
+        const params = {
+            Bucket: process.env.S3_BUCKET_NAME as string,
+            Body: buffer,
+            Key: `uploads/${file.name}`,
+            ContentType: "multipart/form-data"
+        }
+        const command = new PutObjectCommand(params);
+        await s3Client.send(command);
+        return c.json({
+            "message": "File uploaded successfully",
+            fileurl: `https://dpx765sewgh9o.cloudfront.net/${uniqueFileName}`
+        })
+    }
+    return c.json({ error: 'No file uploaded' }, 400);  
+
+})
+
+// blogRouter.post('/upload', async (c) => {
+//     const body = await c.req.parseBody();
+//     const file = body["file"] as File;
 //     const fileName = file.name;
 
 //     const uniqueFileName = `${Date.now()}-${fileName}`
@@ -68,32 +104,32 @@ const prisma = new PrismaClient().$extends(withAccelerate());
 //     console.log(response);
 //     return c.json({ 
 //         "message": "File uploaded successfully",
-//         fileurl: `https://s3.ap-south-1.amazonaws.com/${process.env.S3_BUCKET_NAME}/uploads/${uniqueFileName}`
+//         fileurl: `https://dpx765sewgh9o.cloudfront.net/uploads/${uniqueFileName}`
 //     });
 // })
 
-blogRouter.post('/upload', async(c) => {
-    console.log("Inside upload route")
-    try {
-        const body = await c.req.parseBody();
-        const image = body["image"] as File;
-        const byteArrayBuffer = await image.arrayBuffer();
-        const base64 = encodeBase64(byteArrayBuffer);
-        const result = await cloudinary.uploader.upload(`data:${image.type};base64,${base64}`, {
-            folder: 'writely',
-            allowed_formats: ['png', 'jpg', 'jpeg', 'gif']
-        })
-        // console.log(result);
-        return c.json({
-            result,
-            fileurl : result.secure_url
-        });
+// blogRouter.post('/upload', async(c) => {
+//     console.log("Inside upload route")
+//     try {
+//         const body = await c.req.parseBody();
+//         const image = body["image"] as File;
+//         const byteArrayBuffer = await image.arrayBuffer();
+//         const base64 = encodeBase64(byteArrayBuffer);
+//         const result = await cloudinary.uploader.upload(`data:${image.type};base64,${base64}`, {
+//             folder: 'writely',
+//             allowed_formats: ['png', 'jpg', 'jpeg', 'gif']
+//         })
+//         // console.log(result);
+//         return c.json({
+//             result,
+//             fileurl : result.secure_url
+//         });
         
-    } catch (error) {
-        console.error(error);
-        return c.json({ error : "File upload failed"}, 500);
-    }
-})
+//     } catch (error) {
+//         console.error(error);
+//         return c.json({ error : "File upload failed"}, 500);
+//     }
+// })
 
 
 // Todo : add Pagination
