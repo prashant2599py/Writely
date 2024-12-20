@@ -2,29 +2,29 @@ import { Appbar } from "../components/AppBar"
 import  axios  from "axios"
 import { BACKEND_URL } from "../config"
 
-// import { useNavigate } from "react-router-dom"
-import {   useState } from "react"
-// import JoditEditor from 'jodit-react';
+import { useNavigate } from "react-router-dom"
+import {  useMemo, useRef, useState } from "react"
+import JoditEditor from 'jodit-react';
 
 
 
 export const Publish = () => {
-    // const editor = useRef(null);
-    // const [content, setContent] = useState<string>('');
+    const editor = useRef(null);
+    const [content, setContent] = useState<string>('');
     const [title, setTitle] = useState("");
-    // const navigate = useNavigate();
+    const navigate = useNavigate();
 
 
-    // const convertToPlainText = (html: string) => {
-    //     const tempElement = document.createElement('div');
-    //     tempElement.innerHTML = html;
-    //     return tempElement.textContent || tempElement.innerText || '';
-    // }
-    // const plainTextContent = convertToPlainText(content)
+    const convertToPlainText = (html: string) => {
+        const tempElement = document.createElement('div');
+        tempElement.innerHTML = html;
+        return tempElement.textContent || tempElement.innerText || '';
+    }
+    const plainTextContent = convertToPlainText(content)
 
-    // const editorConfig = useMemo( () => ({
-    //     height : 400,
-    // }), [])
+    const editorConfig = useMemo( () => ({
+        height : 400,
+    }), [])
 
     async function handleRequest(event :React.FormEvent<HTMLFormElement>){
         event.preventDefault();
@@ -44,21 +44,22 @@ export const Publish = () => {
                     
         //    console.log(response)
             const fileurl = responseurl.data;
-            console.log(fileurl)
-        //     const response =  await axios.post(`${BACKEND_URL}/api/v1/blog/post`, {
-        //         title,
-        //         content : plainTextContent,
-        //         coverImage : fileurl ||"",
+
+            const response =  await axios.post(`${BACKEND_URL}/api/v1/blog/post`, {
+                title,
+                content : plainTextContent,
+                coverImage : fileurl.fileurl ||"",
                 
-        //     }, {
-        //         // headers: {
-        //         //     'Content-Type'  :"application/json"
-        //         // },
-        //         withCredentials: true
-        //     }        
-        // );
-        // // console.log(response);
-        // navigate(`/blog/${response.data.id}`)
+            }, {
+                // headers: {
+                //     'Content-Type'  :"application/json"
+                // },
+                withCredentials: true
+            }        
+        );
+        // console.log(response);
+        navigate(`/blog/${response.data.id}`)
+
         // return fileurl;
 
         }catch(error){
@@ -94,14 +95,14 @@ export const Publish = () => {
                             placeholder="Title..."
                         />
  
-                        {/* <div className="flex justify-center mt-8">
+                        <div className="flex justify-center mt-8">
                             <JoditEditor
                                 ref={editor}
                                 value={content}
                                 onChange={content => setContent(content)}
                                 config={editorConfig}
                             />
-                        </div> */}
+                        </div>
 
                         <div className="flex justify-center mt-8">
                             <div className="flex items-center justify-between px-3 py-2">
