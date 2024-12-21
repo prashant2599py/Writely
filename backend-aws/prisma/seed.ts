@@ -7,7 +7,7 @@ async function userSeedData(){
   try{
     await prisma.user.upsert({
     where: {    
-      id: 1,   
+      id: 14,   
       },
       create : {  
         name : 'testuser1',
@@ -20,7 +20,7 @@ async function userSeedData(){
   
     await prisma.user.upsert({
       where : {
-        id: 2,
+        id: 15,
       },
       create : {
         name : 'testuser2',
@@ -43,10 +43,10 @@ const blogSeedData = [
         connect : {username : 'testuser2@gmail.com'}
       },
       tags: ["Programming", "Goals"],
-      coverImage : `https://s3.ap-south-1.amazonaws.com/${process.env.S3_BUCKET_NAME}/uploads/consistency.png`,
+      coverImage : `https://d1qi1e4y57otxy.cloudfront.net/uploads/consistency.jpeg`,
       createdAt: new Date(),
       updatedAt: new Date(),
-      comment : ["Nice Post", "Great Explained", "Quite good to have you on this platform"]
+  
     },
     {
     
@@ -56,10 +56,10 @@ const blogSeedData = [
         connect : {username: "testuser1@gmail.com"}
       },
       tags: ["Interviews", "Interview Questions"],
-      coverImage : `https://s3.ap-south-1.amazonaws.com/${process.env.S3_BUCKET_NAME}/uploads/plane+problem.jpeg`,
+      coverImage : `https://d1qi1e4y57otxy.cloudfront.net/uploads/plane problem.jpeg`,
       createdAt: new Date(),
       updatedAt: new Date(),
-      comment : ["Nice Post", "Great Explained", "Quite good to have you on this platform", "Great comment"]
+    
     },
     {
    
@@ -69,10 +69,9 @@ const blogSeedData = [
         connect : {username: "testuser2@gmail.com"}
       },
       tags: ["Backend", "JavaScript"],
-      coverImage : `https://s3.ap-south-1.amazonaws.com/${process.env.S3_BUCKET_NAME}/uploads/js.png`,
+      coverImage : `https://d1qi1e4y57otxy.cloudfront.net/uploads/js.png`,
       createdAt: new Date(),
       updatedAt: new Date(),
-      comment : ["Nice Post", "Quite good to have you on this platform"]
     },
     {
  
@@ -82,10 +81,10 @@ const blogSeedData = [
         connect : {username: "testuser2@gmail.com"}
       },
       tags: ["Focus", "Exercise", "Health"],
-      coverImage : `https://s3.ap-south-1.amazonaws.com/${process.env.S3_BUCKET_NAME}/uploads/focus.jpg`,
+      coverImage : `https://d1qi1e4y57otxy.cloudfront.net/uploads/focus.jpeg`,
       createdAt: new Date(),
       updatedAt: new Date(),
-      comment : ["Nice Post", "Great Explained", "Quite good to have you on this platform", "you explained well"]
+   
     },
   ];
 
