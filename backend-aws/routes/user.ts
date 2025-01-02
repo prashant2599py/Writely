@@ -5,6 +5,7 @@ import { withAccelerate } from '@prisma/extension-accelerate'
 import { sign, verify } from 'hono/jwt'
 import { signupInput, signinInput } from "@plodhi/medium-common";
 import {  getCookie, setCookie }  from 'hono/cookie'
+const bcrypt = require("bcrypt");
 
 
 export const userRouter = new Hono();
@@ -29,13 +30,19 @@ userRouter.post('/signup', async (c) => {
         message : "Inputs are not correct"
       })
     }
+
+    const password = body.password;
+    const saltRounds = 10;
+    const salt = await bcrypt.genSalt(saltRounds)
+    const hashedPassword = await bcrypt.hash(password, salt)
+    console.log(hashedPassword);
   
     try{
       const user = await prisma.user.create({
         data : {
           name : body.name,
           username : body.username,
-          password :body.password
+          password : hashedPassword
         }
       })
       // console.log(process.env.JWT_SECRET);
@@ -44,7 +51,7 @@ userRouter.post('/signup', async (c) => {
           message : "Jwt secret is required"
         })
       }
-      const jwtSecret = process.env.JWT_SECRET as string;
+      const jwtSecret = process.env.JWT_SECRET as string
       const jwt = await sign({
         id : user.id,
         name : user.name
@@ -87,14 +94,17 @@ userRouter.post('/signin', async (c) => {
       message : "Credentials are not correct"
     })
   }
-
-    try{
-      const user = await prisma.user.findFirst({
-        where : {
-          username : body.username,
-          password :body.password
-        }
-      })
+  
+  try{
+    const user = await prisma.user.findFirst({
+      where : {
+        username : body.username,
+        password : body.password
+      }
+    })
+    const password = body.password;
+    const afterHashedPassword = await bcrypt.compare(password, )
+    console.log(afterHashedPassword);
     
       if(!user){
 
